@@ -1,60 +1,64 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Manrope:wght@400;500;600&family=ABeeZee:wght@400&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+	/**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
 	:root {
-		--background: 0 0% 100%;
-		--foreground: 0 0% 3.9%;
-		--card: 0 0% 100%;
-		--card-foreground: 0 0% 3.9%;
-		--popover: 0 0% 100%;
-		--popover-foreground: 0 0% 3.9%;
-		--primary: 142 76% 36%;
-		--primary-foreground: 0 0% 98%;
-		--secondary: 0 0% 96.1%;
-		--secondary-foreground: 0 0% 9%;
-		--muted: 0 0% 96.1%;
-		--muted-foreground: 0 0% 45.1%;
-		--accent: 0 0% 96.1%;
-		--accent-foreground: 0 0% 9%;
+		/* GoalPlanner Color Scheme */
+		--vibrant-orange: 14 93% 44%; /* #D94E06 */
+		--pearl-white: 45 48% 89%; /* #F0EAD6 */
+		--deep-bg: 15 68% 6%; /* #1A0A05 */
+		--sea-green: 146 50% 36%; /* #2E8B57 */
+		--pure-black: 0 0% 2%; /* #050505 */
+		--pure-white: 0 0% 100%; /* #FFFFFF */
+
+		/* Legacy theme variables - kept for compatibility */
+		--background: 0 0% 2%; /* Dark background for GoalPlanner */
+		--foreground: 45 48% 89%; /* Pearl white text */
+
+		--card: 0 0% 0%;
+		--card-foreground: 45 48% 89%;
+
+		--popover: 0 0% 0%;
+		--popover-foreground: 45 48% 89%;
+
+		--primary: 14 93% 44%;
+		--primary-foreground: 45 48% 89%;
+
+		--secondary: 146 50% 36%;
+		--secondary-foreground: 45 48% 89%;
+
+		--muted: 0 0% 20%;
+		--muted-foreground: 45 48% 70%;
+
+		--accent: 14 93% 44%;
+		--accent-foreground: 45 48% 89%;
+
 		--destructive: 0 84.2% 60.2%;
-		--destructive-foreground: 0 0% 98%;
-		--border: 0 0% 89.8%;
-		--input: 0 0% 89.8%;
-		--ring: 0 0% 3.9%;
-		--chart-1: 12 76% 61%;
-		--chart-2: 173 58% 39%;
-		--chart-3: 197 37% 24%;
-		--chart-4: 43 74% 66%;
-		--chart-5: 27 87% 67%;
+		--destructive-foreground: 45 48% 89%;
+
+		--border: 14 93% 44%;
+		--input: 0 0% 20%;
+		--ring: 14 93% 44%;
+
 		--radius: 0.5rem;
-	}
-	.dark {
-		--background: 0 0% 3.9%;
-		--foreground: 0 0% 98%;
-		--card: 0 0% 3.9%;
-		--card-foreground: 0 0% 98%;
-		--popover: 0 0% 3.9%;
-		--popover-foreground: 0 0% 98%;
-		--primary: 0 0% 98%;
-		--primary-foreground: 0 0% 9%;
-		--secondary: 0 0% 14.9%;
-		--secondary-foreground: 0 0% 98%;
-		--muted: 0 0% 14.9%;
-		--muted-foreground: 0 0% 63.9%;
-		--accent: 0 0% 14.9%;
-		--accent-foreground: 0 0% 98%;
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 0 0% 98%;
-		--border: 0 0% 14.9%;
-		--input: 0 0% 14.9%;
-		--ring: 0 0% 83.1%;
-		--chart-1: 220 70% 50%;
-		--chart-2: 160 60% 45%;
-		--chart-3: 30 80% 55%;
-		--chart-4: 280 65% 60%;
-		--chart-5: 340 75% 55%;
+
+		--sidebar-background: 0 0% 2%;
+		--sidebar-foreground: 45 48% 89%;
+		--sidebar-primary: 14 93% 44%;
+		--sidebar-primary-foreground: 45 48% 89%;
+		--sidebar-accent: 0 0% 10%;
+		--sidebar-accent-foreground: 45 48% 89%;
+		--sidebar-border: 14 93% 44%;
+		--sidebar-ring: 14 93% 44%;
 	}
 }
 
@@ -62,23 +66,39 @@
 	* {
 		@apply border-border;
 	}
-	body {
-		@apply bg-background text-foreground;
-	}
-}
 
-@layer utilities {
-	.bg-background-light {
-		background-color: #fdfdfd;
+	body {
+		@apply bg-[#050505] text-[#F0EAD6];
+		font-family:
+			"Manrope",
+			-apple-system,
+			Roboto,
+			Helvetica,
+			sans-serif;
 	}
-	.bg-background-dark {
-		background-color: #050505;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family:
+			"Montserrat",
+			-apple-system,
+			Roboto,
+			Helvetica,
+			sans-serif;
 	}
-	.hero-gradient {
-		background:
-			linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(5, 5, 5, 1)),
-			url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000");
-		background-size: cover;
-		background-position: center;
+
+	:where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	pre,
+	code {
+		overflow-x: auto;
+		white-space: pre;
 	}
 }
