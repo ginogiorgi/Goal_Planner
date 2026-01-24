@@ -1,7 +1,25 @@
+"use client";
+import { useState } from "react";
+import OnboardingFirstStep from "../../containers/Onboarding/OnboardingFirstStep/OnboardingFirstStep";
+import OnboardingSecondStep from "../../containers/Onboarding/OnboardingSecondStep/OnboardingSecondStep";
+
 export default function OnboardingPage() {
+	const [currentStep, setCurrentStep] = useState(1);
+
+	const handleNext = () => {
+		setCurrentStep(currentStep + 1);
+	};
+
+	const handlePrevious = () => {
+		setCurrentStep(currentStep - 1);
+	};
+
 	return (
 		<div>
-			<h1>Onboarding</h1>
+			{currentStep === 1 && <OnboardingFirstStep onNext={handleNext} />}
+			{currentStep === 2 && (
+				<OnboardingSecondStep onNext={handleNext} onPrevious={handlePrevious} />
+			)}
 		</div>
 	);
 }
