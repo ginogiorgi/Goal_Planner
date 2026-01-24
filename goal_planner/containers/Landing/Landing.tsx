@@ -17,7 +17,7 @@ const Landing = () => {
 							Home
 						</Link>
 						<Link
-							href="#what-is"
+							href="/onboarding"
 							className="hover:text-vibrant-orange transition-colors whitespace-nowrap">
 							What is GoalPlanner?
 						</Link>
