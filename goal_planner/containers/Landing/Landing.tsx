@@ -1,4 +1,6 @@
 import Link from "next/link";
+import landingImage from "../../public/LandingImg.jpg";
+import Image from "next/image";
 
 const Landing = () => {
 	return (
@@ -153,8 +155,8 @@ const Landing = () => {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 						{/* Image */}
 						<div className="order-2 lg:order-1">
-							<img
-								src="https://api.builder.io/api/v1/image/assets/TEMP/ad33659c33381eac40061641b81f19d65a13ad9f?width=726"
+							<Image
+								src={landingImage}
 								alt="Goal achievement visualization"
 								className="w-full h-auto max-w-[363px] mx-auto lg:mx-0 rounded-[33px]"
 							/>
