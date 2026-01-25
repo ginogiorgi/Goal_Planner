@@ -58,7 +58,7 @@ const OnboardingFirstStep = ({ onNext }: OnboardingFirstStepProps) => {
 			<footer className="px-4 md:px-8 pb-12 pt-6 flex flex-col items-center gap-6">
 				<button
 					onClick={onNext}
-					className="flex items-center justify-center w-full max-w-[384px] h-[64px] bg-vibrant-orange text-white-pearl font-manrope font-bold text-[18px] leading-[28px] rounded-[16px] shadow-[0_8px_30px_0_rgba(255,94,0,0.3)] hover:opacity-90 transition-opacity">
+					className="flex items-center justify-center w-full max-w-[384px] h-[64px] bg-vibrant-orange text-white-pearl font-manrope font-bold text-[18px] leading-[28px] rounded-[16px] shadow-[0_8px_30px_0_rgba(255,94,0,0.3)] hover:opacity-90 transition-opacity gap-5">
 					Start Your Journey
 					<TfiArrowRight />
 				</button>
