@@ -1,9 +1,5 @@
-import { Landing } from "@/containers";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-	return (
-		<div>
-			<Landing />
-		</div>
-	);
+    redirect("/landing");
 }

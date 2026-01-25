@@ -1,66 +1,32 @@
 import type { Config } from "tailwindcss";
 
-export default {
-  darkMode: ["class"],
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        primary: "#FF6B00",
-        "background-light": "#fdfdfd",
-        "background-dark": "#050505",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+const config: Config = {
+    content: [
+        "./app/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}",
+        "./pages/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+        extend: {
+            colors: {
+                "vibrant-orange": "hsl(20, 95%, 44%)", // #D94E06
+                "input-bg": "hsl(13, 23%, 19%)", // #3D2B26
+                "modal-bg": "hsl(14, 42%, 10%)", // #25140F
+                "deep-bg": "hsl(14, 68%, 6%)", // #1A0A05
+                "landing-bg": "hsl(0, 0%, 2%)", // #050505
+                "lading-modal-bg": "hsl(0, 0%, 0%)", // #000000
+                "white-pearl": "hsl(46, 46%, 89%)", // #F0EAD6
+                "sea-green": "hsl(146, 50%, 36%)", // #2EBB57
+                "royal-blue": "hsl(217, 76%, 50%)", // #1F6AE1
+                carmin: "hsl(6, 63%, 46%)", // #C0392B
+            },
+            fontFamily: {
+                title: ["Montserrat", "sans-serif"],
+                text: ["Manrope", "sans-serif"],
+            },
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
-      },
-      fontFamily: {
-        display: ["Inter", "sans-serif"],
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-        DEFAULT: "0.5rem",
-      },
     },
-  },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+    plugins: [],
+};
+
+export default config;
