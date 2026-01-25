@@ -13,3 +13,4 @@ export { default as AddHabit } from "./common/AddHabit/AddHabit";
 export { default as AddTask } from "./common/AddTask/AddTask";
 export { default as AnualGoalsCard } from "./AnualGoals/AnualGoalsCard/AnualGoalsCard";
 export { default as NewGoal } from "./common/NewGoal/NewGoal";
+export { default as OnboardingFirstStep } from "./Onboarding/OnboardingFirstStep/OnboardingFirstStep";
