@@ -19,6 +19,7 @@ const config: Config = {
                 "sea-green": "hsl(146, 50%, 36%)", // #2EBB57
                 "royal-blue": "hsl(217, 76%, 50%)", // #1F6AE1
                 "progress-empty": "hsl(240, 4%, 16%)", // #27272A
+                "input-text": "hsl(215, 20%, 65%)", // #94A3B8
                 carmin: "hsl(6, 63%, 46%)", // #C0392B
             },
             fontFamily: {
