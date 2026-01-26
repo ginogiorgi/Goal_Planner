@@ -57,7 +57,7 @@ const OnboardingSecondStep = ({
 
 					<button
 						onClick={onNext}
-						className="flex items-center justify-center min-w-[180px] h-[56px] px-10 bg-vibrant-orange text-white font-text font-bold text-[16px] leading-[24px] tracking-[0.4px] rounded-[7px] shadow-[0px_0px_10px_2px_rgba(217,78,6,0.8)] hover:opacity-90 transition-opacity gap-5 font-text">
+						className="flex items-center justify-center min-w-[180px] h-[56px] px-10 bg-vibrant-orange text-white font-text font-bold text-[16px] leading-[24px] tracking-[0.4px] rounded-[7px] shadow-[0px_0px_10px_2px_rgba(217,78,6,0.8)] hover:opacity-90 transition-opacity gap-5">
 						Continue
 						<TfiArrowRight />
 					</button>
