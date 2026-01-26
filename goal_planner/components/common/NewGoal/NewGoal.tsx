@@ -9,7 +9,7 @@ import SkillIcon from "../../../public/Skill.svg";
 import CreativeIcon from "../../../public/Creative.svg";
 import SocialIcon from "../../../public/Social.svg";
 const NewGoal = () => {
-	const [selectedCategory, setSelectedCategory] = useState("Career");
+	const [selectedCategory, setSelectedCategory] = useState("");
 	const [selectedColor, setSelectedColor] = useState("#D94E06");
 
 	const categories = [
@@ -57,18 +57,18 @@ const NewGoal = () => {
 
 	return (
 		<div className="px-4 md:px-10 lg:px-20 py-4">
-			<div className="max-w-[1280px] mx-auto">
+			<div className="max-w-[1000px] mx-auto">
 				{/* Category Selection */}
 				<div className="mb-4">
-					<label className="block text-white-pearl font-manrope font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-3">
+					<label className="block text-white-pearl font-text font-semibold text-base leading-[16px] tracking-[1.2px] uppercase mb-3">
 						Select Category
 					</label>
-					<div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 w-[60%]">
+					<div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
 						{categories.map((category) => (
 							<button
 								key={category.name}
 								onClick={() => setSelectedCategory(category.name)}
-								className={`relative h-20 w-20 flex flex-col items-center justify-center gap-0.5 rounded-[7px] transition-all ${
+								className={`relative h-24 w-24 flex flex-col items-center justify-center gap-0.5 rounded-[7px] transition-all ${
 									selectedCategory === category.name
 										? "bg-vibrant-orange border-2 border-vibrant-orange shadow-[0_0_15px_0_rgba(255,110,66,0.3)]"
 										: "bg-input-bg border border-[rgba(255,255,255,0.05)] hover:border-vibrant-orange/50"
@@ -76,8 +76,6 @@ const NewGoal = () => {
 								<Image
 									src={category.icon}
 									alt={category.name}
-									width={16}
-									height={16}
 									className={`object-contain transition-colors ${
 										selectedCategory === category.name
 											? "filter brightness-0 invert"
@@ -85,28 +83,9 @@ const NewGoal = () => {
 									}`}
 								/>
 								<span
-									className={`font-manrope font-medium text-[8px] leading-[8px] text-center ${
-										selectedCategory === category.name
-											? "text-white-pearl"
-											: "text-input-text"
-									}`}>
+									className={`font-text font-medium text-xs pt-2 leading-[8px] text-center text-white-pearl`}>
 									{category.name}
 								</span>
-								{selectedCategory === category.name && (
-									<div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-vibrant-orange rounded-full flex items-center justify-center">
-										<svg
-											width="8"
-											height="8"
-											viewBox="0 0 15 16"
-											fill="none"
-											xmlns="http://www.w3.org/2000/svg">
-											<path
-												d="M5.64887 11.3335L2.48221 8.16683L3.27387 7.37516L5.64887 9.75016L10.7461 4.65294L11.5378 5.44461L5.64887 11.3335Z"
-												fill="white"
-											/>
-										</svg>
-									</div>
-								)}
 							</button>
 						))}
 					</div>
@@ -115,22 +94,22 @@ const NewGoal = () => {
 				{/* Goal Name and Description */}
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
 					<div>
-						<label className="block text-white-pearl font-manrope font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
+						<label className="block text-white-pearl font-text font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
 							Goal Name
 						</label>
 						<input
 							type="text"
-							className="w-full h-[44px] bg-input-bg border border-[rgba(255,255,255,0.05)] rounded-[7px] px-3 text-white-pearl font-manrope text-[15px] focus:outline-none focus:border-vibrant-orange transition-colors"
+							className="w-full h-[44px] bg-input-bg border border-[rgba(255,255,255,0.05)] rounded-[7px] px-3 text-white-pearl font-text text-[15px] focus:outline-none focus:border-vibrant-orange transition-colors"
 							placeholder="e.g., Master UI Design"
 						/>
 					</div>
 					<div>
-						<label className="block text-white-pearl font-manrope font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
+						<label className="block text-white-pearl font-text font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
 							Description
 						</label>
 						<input
 							type="text"
-							className="w-full h-[44px] bg-input-bg border border-[rgba(255,255,255,0.05)] rounded-[7px] px-3 text-white-pearl font-manrope text-[15px] focus:outline-none focus:border-vibrant-orange transition-colors"
+							className="w-full h-[44px] bg-input-bg border border-[rgba(255,255,255,0.05)] rounded-[7px] px-3 text-white-pearl font-text text-[15px] focus:outline-none focus:border-vibrant-orange transition-colors"
 							placeholder="Describe your goal..."
 						/>
 					</div>
@@ -139,25 +118,35 @@ const NewGoal = () => {
 				{/* Date and Color Selection */}
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
 					<div>
-						<label className="block text-white-pearl font-manrope font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
+						<label className="block text-white-pearl font-text font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
 							Start Date
 						</label>
 						<input
 							type="date"
-							className="w-full h-[44px] bg-input-bg border border-[rgba(255,255,255,0.05)] rounded-[7px] px-3 text-white-pearl font-manrope text-[15px] focus:outline-none focus:border-vibrant-orange transition-colors"
+							className="w-full h-[44px] bg-input-bg border border-[rgba(255,255,255,0.05)] rounded-[7px] px-3 text-white-pearl font-text text-[15px] focus:outline-none focus:border-vibrant-orange transition-colors"
+							style={
+								{
+									colorScheme: "dark",
+								} as React.CSSProperties
+							}
 						/>
 					</div>
 					<div>
-						<label className="block text-white-pearl font-manrope font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
+						<label className="block text-white-pearl font-text font-semibold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
 							Target Date
 						</label>
 						<input
 							type="date"
-							className="w-full h-[44px] bg-input-bg border border-[rgba(255,255,255,0.05)] rounded-[7px] px-3 text-white-pearl font-manrope text-[15px] focus:outline-none focus:border-vibrant-orange transition-colors"
+							className="w-full h-[44px] bg-input-bg border border-[rgba(255,255,255,0.05)] rounded-[7px] px-3 text-white-pearl font-text text-[15px] focus:outline-none focus:border-vibrant-orange transition-colors"
+							style={
+								{
+									colorScheme: "dark",
+								} as React.CSSProperties
+							}
 						/>
 					</div>
 					<div>
-						<label className="block text-white-pearl font-manrope font-bold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
+						<label className="block text-white-pearl font-text font-bold text-[12px] leading-[16px] tracking-[1.2px] uppercase mb-2">
 							Color Tag
 						</label>
 						<div className="flex items-center gap-2 h-[44px]">
@@ -178,7 +167,7 @@ const NewGoal = () => {
 				</div>
 
 				{/* Tasks and Daily Habits */}
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-7">
 					{/* Tasks */}
 					<div>
 						<div className="flex items-center gap-2 mb-3">
@@ -195,7 +184,7 @@ const NewGoal = () => {
 									/>
 								</svg>
 							</div>
-							<h2 className="text-white-pearl font-manrope font-semibold text-[16px] leading-[22px]">
+							<h2 className="text-white-pearl font-text font-semibold text-2xl leading-[22px]">
 								Tasks
 							</h2>
 						</div>
@@ -214,7 +203,7 @@ const NewGoal = () => {
 									/>
 								</svg>
 							</div>
-							<span className="text-vibrant-orange font-manrope font-normal text-[13px] leading-[18px] tracking-[0.35px]">
+							<span className="text-vibrant-orange font-text font-normal text-[13px] leading-[18px] tracking-[0.35px]">
 								Add Task
 							</span>
 						</button>
@@ -236,7 +225,7 @@ const NewGoal = () => {
 									/>
 								</svg>
 							</div>
-							<h2 className="text-white-pearl font-manrope font-semibold text-[16px] leading-[22px]">
+							<h2 className="text-white-pearl font-text font-semibold text-2xl leading-[22px]">
 								Daily Habits
 							</h2>
 						</div>
@@ -255,7 +244,7 @@ const NewGoal = () => {
 									/>
 								</svg>
 							</div>
-							<span className="text-vibrant-orange font-manrope font-normal text-[13px] leading-[18px] tracking-[0.35px]">
+							<span className="text-vibrant-orange font-text font-normal text-[13px] leading-[18px] tracking-[0.35px]">
 								Add Daily Habit
 							</span>
 						</button>
