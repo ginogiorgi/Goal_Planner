@@ -1,7 +1,16 @@
+import Image from "next/image";
+
 interface FeatureProps {
     title: string;
     text: string | React.ReactNode;
     horizontal?: boolean;
+}
+
+interface CreatorProps {
+    name: string;
+    email: string;
+    github: string;
+    linkedin: string;
 }
 
 {
@@ -10,7 +19,7 @@ interface FeatureProps {
 function Feature({ title, text, horizontal = false }: FeatureProps) {
     return (
         <div
-            className={`flex m-4 ${horizontal ? "w-full flex-row gap-64" : "flex-1 flex-col"}`}
+            className={`flex m-4 ${horizontal ? "w-full flex-row gap-96" : "flex-1 flex-col"}`}
         >
             <div>
                 <div
@@ -32,11 +41,54 @@ function Feature({ title, text, horizontal = false }: FeatureProps) {
     );
 }
 
+{
+    /*Creator component for Footer*/
+}
+function Creator({ name, email, github, linkedin }: CreatorProps) {
+    const githubUsername = github.split("/").pop() || "";
+    const linkedinUsername = linkedin.split("/in/")[1]?.replace("/", "") || "";
+
+    return (
+        <div className="text-center lg:text-left">
+            <h3 className="font-title font-semibold text-2xl text-white-pearl mb-2">
+                {name}
+            </h3>
+            <a
+                href={`mailto:${email}`}
+                className="font-text text-sm text-white-pearl mb-3 block"
+            >
+                {email}
+            </a>
+            <a
+                href={github}
+                className="font-text text-sm text-white-pearl flex gap-2 mb-3"
+            >
+                <img src="github-icon.svg" alt="GitHub" className="w-5 h-5" />
+                {githubUsername}
+            </a>
+            <a
+                href={linkedin}
+                className="font-text text-sm text-white-pearl flex gap-2 mb-3"
+            >
+                <img
+                    src="linkedin-icon.svg"
+                    alt="LinkedIn"
+                    className="w-5 h-5"
+                />
+                {linkedinUsername}
+            </a>
+        </div>
+    );
+}
+
 export default function Landing() {
     return (
         <div className="bg-landing-bg min-h-screen w-full">
-            {/*Landing Page Nav Bar and header*/}
-            <header className="relative bg-cover bg-center w-full bg-[url(/landing_bg.png)]">
+            <header
+                id="header"
+                className="relative bg-cover bg-center w-full bg-[url(/landing_bg.png)] -scroll-mt-16"
+            >
+                {/*Nav Bar*/}
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
@@ -50,28 +102,22 @@ export default function Landing() {
                             <img src="icon.svg" alt="logo" />
                             <nav className="flex gap-8 ml-12">
                                 <a
-                                    href="header"
+                                    href="#header"
                                     className="hover:text-vibrant-orange transition"
                                 >
                                     Home
                                 </a>
                                 <a
-                                    href="whatIs"
+                                    href="#features"
                                     className="hover:text-vibrant-orange transition"
                                 >
                                     What is Goal Planner?
                                 </a>
                                 <a
-                                    href="aboutUs"
+                                    href="#footer"
                                     className="hover:text-vibrant-orange transition"
                                 >
                                     About Us
-                                </a>
-                                <a
-                                    href="downloadApp"
-                                    className="hover:text-vibrant-orange transition"
-                                >
-                                    Download App
                                 </a>
                             </nav>
                         </div>
@@ -83,6 +129,7 @@ export default function Landing() {
                                 Get Started
                             </button>
                         </div>
+                        {/*Header*/}
                     </div>
                     <div className="pt-32 pl-32 pb-40 max-w-[45rem] ml-4">
                         <h1
@@ -106,7 +153,10 @@ export default function Landing() {
                 </div>
             </header>
             {/*List of App Features*/}
-            <div className=" my-3 box-border border-2 border-vibrant-orange rounded-3xl shadow-[0px_0px_10px_2px_rgba(217,78,6,0.8)] bg-black mx-12 flex flex-col p-8">
+            <div
+                id="features"
+                className="my-3 box-border border-2 border-vibrant-orange rounded-3xl shadow-[0px_0px_10px_2px_rgba(217,78,6,0.8)] bg-black mx-12 flex flex-col p-8 scroll-mt-32"
+            >
                 <div className="flex flex-row">
                     <Feature
                         title="How it works"
@@ -150,7 +200,87 @@ export default function Landing() {
                     />
                 </div>
             </div>
-            <div className="h-96"></div>
+            {/*Possibility*/}
+            <div className="flex items-center lg:gap-28 mx-64 mt-28">
+                <img
+                    src="possibilityLandingPage.jpg"
+                    alt="Possibility Image"
+                    className="w-80 h-[27rem] object-cover rounded-3xl"
+                />
+                <div>
+                    <h1
+                        className="font-title font-semibold text-5xl text-transparent bg-clip-text mb-8 pb-2"
+                        style={{
+                            backgroundImage: "var(--main-gradient)",
+                        }}
+                    >
+                        <>
+                            The possibilities
+                            <br />
+                            are
+                            <br />
+                            beyond your
+                            <br />
+                            imagination
+                        </>
+                    </h1>
+                    <p className="font-text text-white-pearl mb-8 leading-10">
+                        Daily tracking increases your chances of goals into
+                        reality.
+                    </p>
+                    <p className="font-text text-white-pearl leading-10">
+                        When you see your progress every day, your dreams stop
+                        being abstract and start becoming achievable.
+                    </p>
+                </div>
+            </div>
+            {/*Ready to Reach Potential*/}
+            <div
+                className="mx-12 rounded-xl lg:py-5 flex items-center justify-between p-14 mt-28"
+                style={{
+                    background: "var(--main-gradient)",
+                }}
+            >
+                <h2 className="font-title font-semibold text-4xl text-deep-bg">
+                    <>
+                        Ready to reach your
+                        <br />
+                        potential?
+                    </>
+                </h2>
+                <button className="bg-sea-green text-white-pearl font-title font-semibold text-2xl px-10 py-3 rounded-full">
+                    Get Started
+                </button>
+            </div>
+            {/*Footer*/}
+            <footer id="footer" className="bg-vibrant-orange mt-28 px-44 py-6">
+                <div className="flex justify-between items-center">
+                    <Creator
+                        name="Juan Manuel Garcia"
+                        email="juanmanuel_garcia98@hotmail.com"
+                        github="https://github.com/LittleBigPants"
+                        linkedin="https://www.linkedin.com/in/juan-manuel-garcia-99952b270/"
+                    />
+                    <img
+                        src="icon-white.svg"
+                        alt="logo"
+                        className="w-24 h-24"
+                    />
+                    <Creator
+                        name="Gino Rubén Giorgi"
+                        email="ginorubengiorgi@gmail.com"
+                        github="https://github.com/ginogiorgi"
+                        linkedin="https://www.linkedin.com/in/ginorubengiorgi/"
+                    />
+                </div>
+
+                {/* Copyright */}
+                <div className="mt-6 text-center">
+                    <p className="font-text text-sm text-white-pearl">
+                        © 2026 GoalPlanner. All rights reserved.
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 }
