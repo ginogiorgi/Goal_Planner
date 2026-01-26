@@ -18,7 +18,7 @@
         --royal-blue: 217 76% 50%; /* #1F6AE1 */
         --carmin: 6 63% 46%; /* #C0392B */
         --main-gradient: linear-gradient(
-            0deg,
+            90deg,
             #d94e06 0%,
             #ff5500 38%,
             #ff8548 100%
