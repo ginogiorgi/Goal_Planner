@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import OnboardingFirstStep from "@/components/Onboarding/OnboardingFirstStep/OnboardingFirstStep";
+import OnboardingSecondStep from "@/components/Onboarding/OnboardingSecondStep/OnboardingSecondStep";
 
 export default function OnboardingPage() {
 	const [currentStep, setCurrentStep] = useState(1);
@@ -16,9 +17,9 @@ export default function OnboardingPage() {
 	return (
 		<div>
 			{currentStep === 1 && <OnboardingFirstStep onNext={handleNext} />}
-			{/* 			{currentStep === 2 && (
+			{currentStep === 2 && (
 				<OnboardingSecondStep onNext={handleNext} onPrevious={handlePrevious} />
-			)} */}
+			)}
 		</div>
 	);
 }
