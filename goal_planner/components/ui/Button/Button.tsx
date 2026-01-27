@@ -1,46 +1,44 @@
+import Link from "next/link";
+import { ReactNode } from "react";
+
 interface ButtonProps {
-    variant?: "primary" | "secondary" | "outline";
     mobileText?: string;
     desktopText?: string;
     href?: string;
     onClick?: () => void;
     className?: string;
+    children?: ReactNode;
 }
 
 const Button = ({
-    variant = "primary",
     mobileText,
     desktopText,
     href,
     onClick,
     className = "",
+    children,
 }: ButtonProps) => {
     const baseStyles =
-        "px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base transition";
+        "px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base font-text font-normal rounded bg-vibrant-orange text-white-pearl transition";
 
-    const variantStyles = {
-        primary: "rounded bg-vibrant-orange",
-        secondary: "hover:text-vibrant-orange",
-        outline: "rounded border border-vibrant-orange hover:bg-vibrant-orange",
-    };
+    const styles = `${baseStyles} ${className}`;
 
-    const styles = `${baseStyles} ${variantStyles[variant]} ${className}`;
-
-    const content =
-        mobileText && desktopText ? (
-            <>
-                <span className="md:hidden">{mobileText}</span>
-                <span className="hidden md:inline">{desktopText}</span>
-            </>
-        ) : (
-            mobileText || desktopText
-        );
+    const content = children ? (
+        children
+    ) : mobileText && desktopText ? (
+        <>
+            <span className="md:hidden">{mobileText}</span>
+            <span className="hidden md:inline">{desktopText}</span>
+        </>
+    ) : (
+        mobileText || desktopText
+    );
 
     if (href) {
         return (
-            <a href={href} className={styles}>
+            <Link href={href} className={styles}>
                 {content}
-            </a>
+            </Link>
         );
     }
 

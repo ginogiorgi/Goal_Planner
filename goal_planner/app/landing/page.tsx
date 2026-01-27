@@ -19,7 +19,7 @@ export default function Landing() {
                     }}
                 />
                 <div className="relative z-10">
-                    <div className="flex items-center justify-between px-4 md:px-8 py-4 text-white-pearl font-text text-base">
+                    <div className="flex items-center justify-between px-4 md:px-8 py-4 text-white-pearl font-text">
                         <div className="flex items-center gap-8">
                             <img
                                 src="icon.svg"
@@ -47,14 +47,14 @@ export default function Landing() {
                                 </a>
                             </nav>
                         </div>
-                        <div className="flex gap-2 md:gap-4">
+                        <div className="flex gap-6 md:gap-8 items-center">
+                            <a
+                                href="#"
+                                className="hidden md:block hover:text-vibrant-orange transition"
+                            >
+                                Sign In
+                            </a>
                             <Button
-                                variant="secondary"
-                                desktopText="Sign In"
-                                className="hidden md:block"
-                            />
-                            <Button
-                                variant="primary"
                                 mobileText="Download App"
                                 desktopText="Get Started"
                                 href="#download-app"
