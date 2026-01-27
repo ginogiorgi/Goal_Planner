@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import NewGoal from "../../../components/common/NewGoal/NewGoal";
+import NewGoal from "@/components/common/NewGoal/NewGoal";
 import { TfiArrowRight, TfiArrowLeft } from "react-icons/tfi";
 interface OnboardingSecondStepProps {
 	onNext: () => void;
