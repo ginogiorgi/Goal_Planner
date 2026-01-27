@@ -1,3 +1,11 @@
+import Navbar from "@/components/Layout/Navbar/Navbar";
+import Top from "@/components/Layout/Top/Top";
+
 export default function AnualGoalsPage() {
-    return <div>Anual Goals Page</div>;
+    return (
+        <div>
+            <Navbar />
+            <Top />
+        </div>
+    );
 }

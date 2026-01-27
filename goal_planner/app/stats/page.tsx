@@ -1,3 +1,11 @@
+import Navbar from "@/components/Layout/Navbar/Navbar";
+import Top from "@/components/Layout/Top/Top";
+
 export default function StatsPage() {
-    return <div>Stats Page</div>;
+    return (
+        <div>
+            <Navbar />
+            <Top />
+        </div>
+    );
 }
