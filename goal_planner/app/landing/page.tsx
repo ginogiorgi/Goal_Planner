@@ -1,85 +1,7 @@
-import Image from "next/image";
-
-interface FeatureProps {
-    title: string;
-    text: string | React.ReactNode;
-    horizontal?: boolean;
-}
-
-interface CreatorProps {
-    name: string;
-    email: string;
-    github: string;
-    linkedin: string;
-}
-
-{
-    /*Feature component, used in App Features*/
-}
-function Feature({ title, text, horizontal = false }: FeatureProps) {
-    return (
-        <div
-            className={`flex m-4 ${horizontal ? "w-full flex-col md:flex-row gap-4 md:gap-96" : "flex-1 flex-col"}`}
-        >
-            <div>
-                <div
-                    className="w-10 h-1 mb-3"
-                    style={{
-                        background: "var(--main-gradient)",
-                    }}
-                />
-                <h1 className="font-title font-semibold text-xl md:text-xl text-white-pearl mb-4 md:mb-7">
-                    {title}
-                </h1>
-            </div>
-            <div className={horizontal ? "max-w-full md:max-w-xl flex" : ""}>
-                <p className="font-text font-medium text-md leading-7 md:leading-10 text-white-pearl">
-                    {text}
-                </p>
-            </div>
-        </div>
-    );
-}
-
-{
-    /*Creator component for Footer*/
-}
-function Creator({ name, email, github, linkedin }: CreatorProps) {
-    const githubUsername = github.split("/").pop() || "";
-    const linkedinUsername = linkedin.split("/in/")[1]?.replace("/", "") || "";
-
-    return (
-        <div className="text-center">
-            <h3 className="font-title font-semibold text-xl md:text-2xl text-white-pearl mb-2">
-                {name}
-            </h3>
-            <a
-                href={`mailto:${email}`}
-                className="font-text text-xs md:text-sm text-white-pearl mb-3 block"
-            >
-                {email}
-            </a>
-            <a
-                href={github}
-                className="font-text text-xs md:text-sm text-white-pearl flex gap-2 mb-3 justify-center"
-            >
-                <img src="github-icon.svg" alt="GitHub" className="w-5 h-5" />
-                {githubUsername}
-            </a>
-            <a
-                href={linkedin}
-                className="font-text text-xs md:text-sm text-white-pearl flex gap-2 mb-3 justify-center"
-            >
-                <img
-                    src="linkedin-icon.svg"
-                    alt="LinkedIn"
-                    className="w-5 h-5"
-                />
-                {linkedinUsername}
-            </a>
-        </div>
-    );
-}
+import Feature from "@/components/LandingPage/Feature/Feature";
+import DownloadButton from "@/components/LandingPage/DownloadButton/DownloadButton";
+import Creator from "@/components/LandingPage/Creator/Creator";
+import Button from "@/components/ui/Button/Button";
 
 export default function Landing() {
     return (
@@ -126,18 +48,17 @@ export default function Landing() {
                             </nav>
                         </div>
                         <div className="flex gap-2 md:gap-4">
-                            <button className="hidden md:block px-4 py-2 hover:text-vibrant-orange transition">
-                                Sign In
-                            </button>
-                            <a
+                            <Button
+                                variant="secondary"
+                                desktopText="Sign In"
+                                className="hidden md:block"
+                            />
+                            <Button
+                                variant="primary"
+                                mobileText="Download App"
+                                desktopText="Get Started"
                                 href="#download-app"
-                                className="px-3 py-1.5 md:px-4 md:py-2 rounded bg-vibrant-orange text-sm md:text-base"
-                            >
-                                <span className="md:hidden">Download App</span>
-                                <span className="hidden md:inline">
-                                    Get Started
-                                </span>
-                            </a>
+                            />
                         </div>
                         {/*Header*/}
                     </div>
@@ -278,38 +199,18 @@ export default function Landing() {
                     today!
                 </p>
                 <div className="flex flex-col gap-4">
-                    <a
+                    <DownloadButton
+                        icon="apple-icon.svg"
+                        topText="Download on the"
+                        bottomText="App Store"
                         href="#"
-                        className="flex items-center justify-center gap-3 bg-black text-white-pearl rounded-xl py-3 px-6 hover:bg-gray-900 transition"
-                    >
-                        <img
-                            src="apple-icon.svg"
-                            alt="Apple"
-                            className="w-8 h-8"
-                        />
-                        <div className="text-left">
-                            <div className="text-xs">Download on the</div>
-                            <div className="text-xl font-semibold -mt-1">
-                                App Store
-                            </div>
-                        </div>
-                    </a>
-                    <a
+                    />
+                    <DownloadButton
+                        icon="google-play-icon.svg"
+                        topText="GET IT ON"
+                        bottomText="Google Play"
                         href="#"
-                        className="flex items-center justify-center gap-3 bg-black text-white-pearl rounded-xl py-3 px-6 hover:bg-gray-900 transition"
-                    >
-                        <img
-                            src="google-play-icon.svg"
-                            alt="Google Play"
-                            className="w-8 h-8"
-                        />
-                        <div className="text-left">
-                            <div className="text-xs">GET IT ON</div>
-                            <div className="text-xl font-semibold -mt-1">
-                                Google Play
-                            </div>
-                        </div>
-                    </a>
+                    />
                 </div>
             </div>
             {/*Footer*/}
