@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { TfiArrowRight } from "react-icons/tfi";
@@ -11,7 +12,7 @@ import NewGoal from "@/components/common/NewGoal/NewGoal";
 import Button from "@/components/ui/Button/Button";
 import CalendarImg from "../../public/CalendarScreenshot.png";
 
-export default function OnboardingPage() {
+function OnboardingContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const currentStep = parseInt(searchParams.get("step") || "1", 10);
@@ -167,5 +168,13 @@ export default function OnboardingPage() {
                 </>
             )}
         </div>
+    );
+}
+
+export default function OnboardingPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-deep-bg" />}>
+            <OnboardingContent />
+        </Suspense>
     );
 }
