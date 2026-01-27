@@ -14,3 +14,5 @@ export { default as AddTask } from "./common/AddTask/AddTask";
 export { default as AnualGoalsCard } from "./AnualGoals/AnualGoalsCard/AnualGoalsCard";
 export { default as NewGoal } from "./common/NewGoal/NewGoal";
 export { default as OnboardingFirstStep } from "./Onboarding/OnboardingFirstStep/OnboardingFirstStep";
+export { default as OnboardingSecondStep } from "./Onboarding/OnboardingSecondStep/OnboardingSecondStep";
+export { default as OnboardingThirdStep } from "./Onboarding/OnboardingThirdStep/OnboardingThirdStep";
