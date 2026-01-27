@@ -2,6 +2,7 @@
 import { useState } from "react";
 import OnboardingFirstStep from "@/components/Onboarding/OnboardingFirstStep/OnboardingFirstStep";
 import OnboardingSecondStep from "@/components/Onboarding/OnboardingSecondStep/OnboardingSecondStep";
+import OnboardingThirdStep from "@/components/Onboarding/OnboardingThirdStep/OnboardingThirdStep";
 
 export default function OnboardingPage() {
 	const [currentStep, setCurrentStep] = useState(1);
@@ -19,6 +20,9 @@ export default function OnboardingPage() {
 			{currentStep === 1 && <OnboardingFirstStep onNext={handleNext} />}
 			{currentStep === 2 && (
 				<OnboardingSecondStep onNext={handleNext} onPrevious={handlePrevious} />
+			)}
+			{currentStep === 3 && (
+				<OnboardingThirdStep onNext={handleNext} onPrevious={handlePrevious} />
 			)}
 		</div>
 	);
