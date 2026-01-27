@@ -1,10 +1,3 @@
-import { Navbar, Top } from "@/components";
-
 export default function AnualGoalsPage() {
-    return (
-        <div>
-            <Navbar />
-            <Top />
-        </div>
-    );
+    return <div>Anual Goals Page</div>;
 }

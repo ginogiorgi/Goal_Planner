@@ -1,10 +1,5 @@
-import TopButton from "../../ui/TopButton/TopButton";
 const Top = () => {
-    return (
-        <div>
-            <TopButton />
-        </div>
-    )
-}
+    return <div>Top Component</div>;
+};
 
-export default Top
+export default Top;
