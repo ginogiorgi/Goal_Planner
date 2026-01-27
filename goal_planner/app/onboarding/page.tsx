@@ -5,25 +5,28 @@ import OnboardingSecondStep from "@/components/Onboarding/OnboardingSecondStep/O
 import OnboardingThirdStep from "@/components/Onboarding/OnboardingThirdStep/OnboardingThirdStep";
 
 export default function OnboardingPage() {
-	const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(1);
 
-	const handleNext = () => {
-		setCurrentStep(currentStep + 1);
-	};
+    const handleNext = () => {
+        setCurrentStep(currentStep + 1);
+    };
 
-	const handlePrevious = () => {
-		setCurrentStep(currentStep - 1);
-	};
+    const handlePrevious = () => {
+        setCurrentStep(currentStep - 1);
+    };
 
-	return (
-		<div>
-			{currentStep === 1 && <OnboardingFirstStep onNext={handleNext} />}
-			{currentStep === 2 && (
-				<OnboardingSecondStep onNext={handleNext} onPrevious={handlePrevious} />
-			)}
-			{currentStep === 3 && (
-				<OnboardingThirdStep onNext={handleNext} onPrevious={handlePrevious} />
-			)}
-		</div>
-	);
+    return (
+        <div>
+            {currentStep === 1 && <OnboardingFirstStep onNext={handleNext} />}
+            {currentStep === 2 && (
+                <OnboardingSecondStep
+                    onNext={handleNext}
+                    onPrevious={handlePrevious}
+                />
+            )}
+            {currentStep === 3 && (
+                <OnboardingThirdStep onPrevious={handlePrevious} />
+            )}
+        </div>
+    );
 }
