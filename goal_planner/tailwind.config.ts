@@ -12,6 +12,7 @@ const config: Config = {
                 "vibrant-orange": "hsl(20, 95%, 44%)", // #D94E06
                 "input-bg": "hsl(13, 23%, 19%)", // #3D2B26
                 "modal-bg": "hsl(14, 42%, 10%)", // #25140F
+                "modal-bg-hover": "hsl(14, 42%, 15%)", // #2A1A12 - 50% más claro que modal-bg
                 "deep-bg": "hsl(14, 68%, 6%)", // #1A0A05
                 "landing-bg": "hsl(0, 0%, 2%)", // #050505
                 "lading-modal-bg": "hsl(0, 0%, 0%)", // #000000
