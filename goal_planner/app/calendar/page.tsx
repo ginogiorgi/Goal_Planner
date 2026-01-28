@@ -21,7 +21,6 @@ export default function CalendarPage() {
 		const year = today.getFullYear();
 		const month = today.getMonth();
 		return {};
-
 		/* 		return {
 			[`${year}-${String(month + 1).padStart(2, "0")}-05`]: [
 				{ id: "1", title: "Team Meeting", color: "#F0E23A" },
