@@ -1,12 +1,18 @@
 import { useState, useMemo } from "react";
-import CalendarCard, { type CalendarEvent } from "../CalendarCard/CalendarCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import CalendarHeader from "../CalendarHeader/CalendarHeader";
+import CalendarGrid from "../CalendarGrid/CalendarGrid";
 import { cn } from "@/lib/utils";
 
 export interface CalendarProps {
 	events?: Record<string, CalendarEvent[]>;
 	onDateSelect?: (date: Date) => void;
 	selectedDate?: Date;
+}
+
+interface CalendarEvent {
+	id: string;
+	title: string;
+	color?: string;
 }
 
 export default function Calendar({
@@ -29,8 +35,6 @@ export default function Calendar({
 			year: "numeric",
 		});
 	}, [year, month]);
-
-	const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 	const calendarDays = useMemo(() => {
 		const firstDayOfMonth = new Date(year, month, 1);
@@ -115,61 +119,23 @@ export default function Calendar({
 	return (
 		<div className="w-full max-w-[900px] mx-auto">
 			{/* Header */}
-			<div className="flex items-center justify-between mb-8">
-				<h2 className="text-3xl font-bold text-white-pearl">{monthName}</h2>
-				<div className="flex items-center gap-3">
-					<button
-						onClick={handleToday}
-						className="px-4 py-2 rounded-lg bg-[#27272A] hover:bg-[#27272A]/80 text-[#F0EAD6] font-medium transition-colors">
-						Today
-					</button>
-					<div className="flex items-center gap-2">
-						<button
-							onClick={handlePrevMonth}
-							className="w-10 h-10 rounded-lg bg-[#27272A] hover:bg-[#27272A]/80 flex items-center justify-center transition-colors"
-							aria-label="Previous month">
-							<ChevronLeft className="w-5 h-5" />
-						</button>
-						<button
-							onClick={handleNextMonth}
-							className="w-10 h-10 rounded-lg bg-[#27272A] hover:bg-[#27272A]/80 flex items-center justify-center transition-colors"
-							aria-label="Next month">
-							<ChevronRight className="w-5 h-5" />
-						</button>
-					</div>
-				</div>
-			</div>
+			<CalendarHeader
+				monthName={monthName}
+				onPrevMonth={handlePrevMonth}
+				onNextMonth={handleNextMonth}
+				onToday={handleToday}
+			/>
 
-			{/* Week day headers */}
-			<div className="grid grid-cols-7 gap-3 mb-4">
-				{weekDays.map((day) => (
-					<div
-						key={day}
-						className="text-center text-sm font-semibold text-[#94A3B8] h-10 flex items-center justify-center">
-						{day}
-					</div>
-				))}
-			</div>
-
-			{/* Calendar grid */}
-			<div className="grid grid-cols-7 gap-3">
-				{calendarDays.map((day, index) => {
-					const dateKey = getDateKey(day.fullDate);
-					const dayEvents = events[dateKey] || [];
-
-					return (
-						<CalendarCard
-							key={index}
-							date={day.date}
-							isCurrentMonth={day.isCurrentMonth}
-							isToday={isToday(day.fullDate)}
-							isSelected={isSelected(day.fullDate)}
-							events={dayEvents}
-							onClick={() => onDateSelect?.(day.fullDate)}
-						/>
-					);
-				})}
-			</div>
+			{/* Calendar Grid */}
+			<CalendarGrid
+				calendarDays={calendarDays}
+				events={events}
+				onDateSelect={onDateSelect}
+				selectedDate={selectedDate}
+				isToday={isToday}
+				isSelected={isSelected}
+				getDateKey={getDateKey}
+			/>
 		</div>
 	);
 }
