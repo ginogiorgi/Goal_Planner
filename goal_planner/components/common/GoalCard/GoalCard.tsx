@@ -1,13 +1,31 @@
 import { HiDotsVertical } from "react-icons/hi";
 import { useState, useEffect, useRef } from "react";
-import CreativeIcon from "../../../public/Creative.svg";
-import FitnessIcon from "../../../public/Fitness.svg";
 import Image from "next/image";
 import TaskHabitColumn from "../TaskHabitColumn/TaskHabitColumn";
+import clsx from "clsx";
+
+const Badge = ({
+    label,
+    variant,
+}: {
+    label: string;
+    variant: "active" | "completed";
+}) => (
+    <span
+        className={clsx(
+            "inline-flex px-2 py-[2.5px] rounded",
+            variant === "active" ? "bg-vibrant-orange" : "bg-green-500",
+        )}
+    >
+        <span className="text-white-pearl font-text font-semibold text-xs leading-[15px] tracking-[1px] uppercase">
+            {label}
+        </span>
+    </span>
+);
 
 interface Task {
     title: string;
-    days: string;
+    days?: string;
     time?: string;
 }
 
@@ -28,8 +46,7 @@ interface GoalCardProps {
     showTargetDate?: boolean;
     targetDate?: string;
     category?: string;
-    icon?: string;
-    isExpandable?: boolean;
+    icon?: string | any;
     tasks?: Task[];
     habits?: Habit[];
     onEdit?: () => void;
@@ -53,7 +70,6 @@ export default function GoalCard({
     targetDate,
     category = "Creative",
     icon,
-    isExpandable = false,
     tasks = [],
     habits = [],
     onEdit,
@@ -87,81 +103,42 @@ export default function GoalCard({
         };
     }, [isMenuOpen]);
     return (
-        <div
-            className={`w-full rounded-[20px] border bg-input-bg shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] flex flex-col ${
-                showProgress
-                    ? "max-w-[1280px] h-auto md:h-[106px] border-input-bg"
-                    : "border-[rgba(255,255,255,0.05)]"
-            }`}
-        >
+        <div className="w-full max-w-[1280px] rounded-[20px] border border-[rgba(255,255,255,0.05)] bg-input-bg shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] flex flex-col">
             {/* Main Card Content */}
             <div
-                className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-3 p-3 ${
-                    isExpandable
-                        ? "cursor-pointer hover:opacity-90 transition-opacity"
-                        : ""
-                }`}
-                onClick={() => isExpandable && setIsExpanded(!isExpanded)}
+                className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 p-3 cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => setIsExpanded(!isExpanded)}
             >
-                {/* Edit Icon Badge */}
-                <div
-                    className={`w-10 h-10 bg-vibrant-orange rounded-[16px] flex items-center justify-center flex-shrink-0 ${
-                        showProgress ? "w-14 h-14 md:ml-[25px]" : ""
-                    }`}
-                >
-                    <Image
-                        src={
-                            icon ||
-                            (category === "Creative"
-                                ? CreativeIcon
-                                : FitnessIcon)
-                        }
-                        alt={category}
-                        className={`${showProgress ? "h-8 w-8" : "w-6 h-6"} filter brightness-0 invert`}
-                    />
+                {/* Icon Badge */}
+                <div className="w-10 h-10 bg-vibrant-orange rounded-[16px] flex items-center justify-center flex-shrink-0">
+                    {icon && (
+                        <Image
+                            src={icon}
+                            alt={category || "Goal"}
+                            width={24}
+                            height={24}
+                            className="filter brightness-0 invert"
+                        />
+                    )}
                 </div>
 
                 {/* Content Container */}
-                <div
-                    className={`flex-1 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 ${
-                        showProgress ? "w-full md:px-5" : "w-full"
-                    }`}
-                >
+                <div className="flex-1 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 w-full">
                     {/* Title and Description */}
                     <div className="flex-1">
                         <div className="flex items-center gap-3 mb-1">
-                            <h3
-                                className={`text-white-pearl font-bold ${
-                                    showProgress
-                                        ? "font-text text-xl leading-[28px]"
-                                        : "font-manrope text-sm md:text-base leading-[1.3]"
-                                }`}
-                            >
+                            <h3 className="text-white-pearl font-bold font-manrope text-sm md:text-base leading-[1.3]">
                                 {title}
                             </h3>
                             {isActive && !isCompleted && (
-                                <span className="inline-flex px-2 py-[2.5px] rounded bg-vibrant-orange">
-                                    <span className="text-white-pearl font-text font-semibold text-xs leading-[15px] tracking-[1px] uppercase">
-                                        Active
-                                    </span>
-                                </span>
+                                <Badge label="Active" variant="active" />
                             )}
                             {isCompleted && (
-                                <span className="inline-flex px-2 py-[2.5px] rounded bg-green-500">
-                                    <span className="text-white-pearl font-text font-semibold text-xs leading-[15px] tracking-[1px] uppercase">
-                                        Completed
-                                    </span>
-                                </span>
+                                <Badge label="Completed" variant="completed" />
                             )}
                         </div>
                         {description && (
-                            <p
-                                className={`font-medium ${
-                                    showProgress
-                                        ? "text-white-pearl font-text text-sm leading-[20px]"
-                                        : "text-input-text font-manrope text-xs md:text-sm leading-[1.3]"
-                                }`}
-                            >
+                            <p className="font-medium text-input-text font-manrope text-xs md:text-sm leading-[1.3]">
                                 {description}
                             </p>
                         )}
@@ -208,22 +185,19 @@ export default function GoalCard({
                                 e.stopPropagation();
                                 setIsMenuOpen(!isMenuOpen);
                             }}
-                            className={`flex items-center justify-center hover:opacity-70 transition-opacity text-white-pearl cursor-pointer text-xl ${
-                                showProgress
-                                    ? "md:mr-6 self-end md:self-center"
-                                    : ""
-                            }`}
+                            className="flex items-center justify-center hover:opacity-70 transition-opacity text-white-pearl cursor-pointer text-xl"
                         >
                             <HiDotsVertical />
                         </button>
 
                         {/* Dropdown Menu */}
                         <div
-                            className={`absolute right-0 top-full mt-2 w-48 bg-deep-bg border border-input-bg rounded-lg z-50 transition-all duration-300 ${
+                            className={clsx(
+                                "absolute right-0 top-full mt-2 w-48 bg-deep-bg border border-input-bg rounded-lg z-50 transition-all duration-300",
                                 isMenuOpen
                                     ? "opacity-100 translate-y-0 scale-100"
-                                    : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
-                            }`}
+                                    : "opacity-0 -translate-y-2 scale-95 pointer-events-none",
+                            )}
                         >
                             <div className="py-2">
                                 {onEdit && (
@@ -258,13 +232,14 @@ export default function GoalCard({
 
             {/* Expanded Content - Tasks and Habits */}
             <div
-                className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    isExpandable && isExpanded
-                        ? "max-h-[1000px] opacity-100"
-                        : "max-h-0 opacity-0"
-                }`}
+                className={clsx(
+                    "overflow-hidden transition-all duration-500 ease-in-out",
+                    isExpanded
+                        ? "max-h-[2000px] opacity-100"
+                        : "max-h-0 opacity-0",
+                )}
             >
-                {isExpandable && isExpanded && (
+                {isExpanded && (
                     <div className="px-3 pb-4 border-t border-input-bg mt-2 pt-4">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <TaskHabitColumn

@@ -2,22 +2,11 @@ import { useState } from "react";
 import Image from "next/image";
 import TaskHabitColumn from "../TaskHabitColumn/TaskHabitColumn";
 import InputField from "../../ui/InputField/InputField";
+import { categories, colors } from "@/lib/constants/categories";
+
 const NewGoal = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedColor, setSelectedColor] = useState("#D94E06");
-
-    const categories = [
-        { name: "Health", icon: "./Health.svg" },
-        { name: "Career", icon: "./Career.svg" },
-        { name: "Academic", icon: "./Academic.svg" },
-        { name: "Finance", icon: "./Finance.svg" },
-        { name: "Fitness", icon: "./Fitness.svg" },
-        { name: "Skill", icon: "./Skill.svg" },
-        { name: "Creative", icon: "./Creative.svg" },
-        { name: "Social", icon: "./Social.svg" },
-    ];
-
-    const colors = ["#D94E06", "#1F6AE1", "#2EBB57", "#C0392B", "#F0E23A"];
 
     return (
         <div className="py-4 px-4">
