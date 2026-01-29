@@ -6,7 +6,6 @@ import { TfiArrowRight } from "react-icons/tfi";
 import ProgressBar from "@/components/Onboarding/ProgressBar/ProgressBar";
 import StepHeader from "@/components/Onboarding/StepHeader/StepHeader";
 import NavigationButtons from "@/components/Onboarding/NavigationButtons/NavigationButtons";
-import AddButton from "@/components/Onboarding/AddButton/AddButton";
 import NewGoal from "@/components/common/NewGoal/NewGoal";
 import Button from "@/components/ui/Button/Button";
 import CalendarImg from "../../public/CalendarScreenshot.png";
@@ -26,9 +25,9 @@ function OnboardingContent() {
     };
 
     const stepLabels = [
-        "Goal Selection",
-        "Goal Configuration",
-        "Final Commitment",
+        "GOAL SELECTION",
+        "GOAL CONFIGURATION",
+        "FINAL COMMITMENT",
     ];
 
     const [goals, setGoals] = useState([
@@ -88,48 +87,39 @@ function OnboardingContent() {
             {/* Step 1: Welcome */}
             {currentStep === 1 && (
                 <>
-                    <main className="flex-1 flex items-center">
-                        <div className="w-full flex flex-col items-center gap-8">
-                            <div className="w-full max-w-96 aspect-[16/10] relative">
+                    <main className="pt-4 pb-32 mx-28">
+                        <div className="flex items-center gap-12">
+                            <StepHeader
+                                title={
+                                    <>
+                                        Transform Your{" "}
+                                        <span
+                                            className="text-transparent bg-clip-text"
+                                            style={{
+                                                backgroundImage:
+                                                    "var(--main-gradient)",
+                                            }}
+                                        >
+                                            Ambitions{" "}
+                                        </span>
+                                        into Reality
+                                    </>
+                                }
+                                description="GoalPlanner helps you organize your life, track your habits, and achieve your biggest dreams through a simple, visual, and rewarding experience."
+                            />
+                            <div className="max-w-lg aspect-[16/10] flex-shrink-0">
                                 <Image
                                     src={CalendarImg}
                                     alt="GoalPlanner Dashboard Preview"
                                     className="w-full h-full object-contain rounded-3xl border-2 border-input-bg"
                                 />
                             </div>
-                            <div className="flex flex-col items-center gap-6 text-center">
-                                <h1 className="font-title font-bold text-5xl">
-                                    <span className="text-white-pearl">
-                                        Transform Your{" "}
-                                    </span>
-                                    <span
-                                        className="text-transparent bg-clip-text"
-                                        style={{
-                                            backgroundImage:
-                                                "var(--main-gradient)",
-                                        }}
-                                    >
-                                        Ambitions
-                                    </span>
-                                    <br />
-                                    <span className="text-white-pearl">
-                                        into Reality
-                                    </span>
-                                </h1>
-
-                                <p className="font-text text-base text-white-pearl max-w-xl">
-                                    GoalPlanner helps you organize your life,
-                                    track your habits, and achieve your biggest
-                                    dreams through a simple, visual, and
-                                    rewarding experience.
-                                </p>
-                            </div>
                         </div>
                     </main>
-                    <footer className="px-4 pb-8 flex flex-col items-center">
+                    <footer className="fixed bottom-0 left-0 right-0 py-6 flex justify-center">
                         <Button
                             onClick={handleNext}
-                            className="flex items-center justify-center w-full max-w-96 h-16 gap-5 font-semibold"
+                            className="flex items-center justify-center w-96 h-16 gap-5 font-semibold"
                         >
                             Start Your Journey
                             <TfiArrowRight />
@@ -141,7 +131,7 @@ function OnboardingContent() {
             {/* Step 2: Define Goal */}
             {currentStep === 2 && (
                 <>
-                    <main className="pt-4 overflow-y-auto mx-48">
+                    <main className="pt-4 pb-28 overflow-y-auto mx-28">
                         <StepHeader
                             title="Define Your First Goal"
                             description="Break down your ambition into actionable daily or weekly tasks."
@@ -159,7 +149,7 @@ function OnboardingContent() {
             {/* Step 3: Summary */}
             {currentStep === 3 && (
                 <>
-                    <main className="flex-1 px-4 md:px-10 lg:px-20 md:pt-4 overflow-y-auto pb-24">
+                    <main className="flex-1 px-4 md:px-10 lg:px-20 md:pt-4 overflow-y-auto pb-28">
                         <div className="max-w-[1000px] mx-auto">
                             <StepHeader
                                 title="You're All Set"
@@ -208,8 +198,6 @@ function OnboardingContent() {
                                         }
                                     />
                                 ))}
-
-                                <AddButton label="Add Another Goal" />
                             </div>
                         </div>
                     </main>

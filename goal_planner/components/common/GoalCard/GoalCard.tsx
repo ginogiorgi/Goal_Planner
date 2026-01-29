@@ -272,14 +272,12 @@ export default function GoalCard({
                                 items={tasks}
                                 onAdd={onTaskAdd}
                                 onDelete={onTaskDelete}
-                                size="small"
                             />
                             <TaskHabitColumn
                                 type="habit"
                                 items={habits}
                                 onAdd={onHabitAdd}
                                 onDelete={onHabitDelete}
-                                size="small"
                             />
                         </div>
                     </div>
