@@ -110,6 +110,8 @@ const NewGoal = () => {
                             title: "Clean room",
                         },
                     ]}
+                    onEdit={(index) => console.log("Edit task", index)}
+                    onDelete={(index) => console.log("Delete task", index)}
                 />
                 <TaskHabitColumn
                     type="habit"
@@ -119,6 +121,8 @@ const NewGoal = () => {
                             days: "Tue",
                         },
                     ]}
+                    onEdit={(index) => console.log("Edit habit", index)}
+                    onDelete={(index) => console.log("Delete habit", index)}
                 />
             </div>
         </div>

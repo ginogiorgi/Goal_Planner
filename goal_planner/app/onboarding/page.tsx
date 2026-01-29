@@ -45,15 +45,13 @@ export default function OnboardingPage() {
                 },
                 {
                     title: "Build portfolio website",
-                    days: "Tue, Thu",
-                    time: "2:00 PM",
+                    days: "Tue",
                 },
             ],
             habits: [
                 {
                     title: "Daily design practice",
                     days: "Everyday",
-                    time: "8:00 AM",
                 },
             ],
         },
@@ -159,13 +157,9 @@ export default function OnboardingPage() {
                             {goals.map((goal, index) => (
                                 <GoalCard
                                     key={index}
-                                    icon={goal.icon}
                                     title={goal.title}
                                     description={goal.category}
-                                    showProgress={index === 0}
                                     progress={50}
-                                    showMenu={true}
-                                    showTargetDate={true}
                                     targetDate={goal.targetDate}
                                     category={goal.category}
                                     tasks={goal.tasks || []}
@@ -178,9 +172,19 @@ export default function OnboardingPage() {
                                             `Add habit to ${goal.title}`,
                                         )
                                     }
+                                    onTaskEdit={(taskIndex) =>
+                                        console.log(
+                                            `Edit task ${taskIndex} from ${goal.title}`,
+                                        )
+                                    }
                                     onTaskDelete={(taskIndex) =>
                                         console.log(
                                             `Delete task ${taskIndex} from ${goal.title}`,
+                                        )
+                                    }
+                                    onHabitEdit={(habitIndex) =>
+                                        console.log(
+                                            `Edit habit ${habitIndex} from ${goal.title}`,
                                         )
                                     }
                                     onHabitDelete={(habitIndex) =>

@@ -13,13 +13,15 @@ interface TaskHabitColumnProps {
     type: "task" | "habit";
     items?: Item[];
     onAdd?: () => void;
-    onDelete?: (index: number) => void;
+    onEdit: (index: number) => void;
+    onDelete: (index: number) => void;
 }
 
 export default function TaskHabitColumn({
     type,
     items = [],
     onAdd,
+    onEdit,
     onDelete,
 }: TaskHabitColumnProps) {
     const isTask = type === "task";
@@ -45,7 +47,9 @@ export default function TaskHabitColumn({
                     title={item.title}
                     days={item.days}
                     time={item.time}
-                    onDelete={onDelete ? () => onDelete(index) : undefined}
+                    type={type}
+                    onEdit={() => onEdit(index)}
+                    onDelete={() => onDelete(index)}
                 />
             ))}
             <button

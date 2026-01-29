@@ -1,17 +1,24 @@
-import { FaRegTrashAlt } from "react-icons/fa";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
+
 interface TaskHabitSimpleViewProps {
     title: string;
     days?: string;
     time?: string;
-    onDelete?: () => void;
+    type: "task" | "habit";
+    onEdit: () => void;
+    onDelete: () => void;
 }
 
 export default function TaskHabitSimpleView({
     title,
     days,
     time,
+    type,
+    onEdit,
     onDelete,
 }: TaskHabitSimpleViewProps) {
+    const typeLabel = type === "task" ? "Task" : "Habit";
+
     return (
         <div className="w-[33rem] rounded-3xl border border-input-bg bg-modal-bg  flex items-center my-2 h-20 p-6">
             {/* Content Section */}
@@ -38,10 +45,20 @@ export default function TaskHabitSimpleView({
                 </div>
             </div>
 
-            {/* Delete Button */}
-            <button onClick={onDelete} className="w-6 h-6">
-                <FaRegTrashAlt className="text-white-pearl" />
-            </button>
+            {/* Menu Button */}
+            <DropdownMenu
+                items={[
+                    {
+                        label: `Edit ${typeLabel}`,
+                        onClick: onEdit,
+                    },
+                    {
+                        label: `Delete ${typeLabel}`,
+                        onClick: onDelete,
+                        variant: "danger" as const,
+                    },
+                ]}
+            />
         </div>
     );
 }
