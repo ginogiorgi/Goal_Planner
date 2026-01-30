@@ -1,28 +1,9 @@
-import { useState } from "react";
 import Image from "next/image";
 import TaskHabitColumn from "../TaskHabitColumn/TaskHabitColumn";
 import clsx from "clsx";
-import { categories } from "@/lib/constants/categories";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
-
-const Badge = ({
-    label,
-    variant,
-}: {
-    label: string;
-    variant: "ACTIVE" | "COMPLETED";
-}) => (
-    <span
-        className={clsx(
-            "inline-flex px-1 py-1 rounded-md font-semibold text-xs",
-            variant === "ACTIVE" ? "bg-vibrant-orange" : "bg-green-500",
-        )}
-    >
-        <span className="text-white-pearl font-semibold text-xs tracking-[1px]">
-            {label}
-        </span>
-    </span>
-);
+import { useState } from "react";
+import { categories } from "@/lib/constants/categories";
 
 interface Task {
     title: string;
@@ -59,7 +40,7 @@ export default function GoalCard({
     description,
     progress = 0,
     targetDate,
-    category = "Creative",
+    category,
     tasks = [],
     habits = [],
     onEdit,
@@ -73,82 +54,72 @@ export default function GoalCard({
 }: GoalCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    // Obtener el ícono desde categories basándose en la categoría
-    const icon = categories.find((cat) => cat.name === category)?.icon;
     return (
-        <div className="w-[70rem] rounded-3xl border border-input-bg bg-modal-bg">
-            {/* Main Card Content */}
+        <div className="w-[70rem] rounded-3xl border border-input-bg bg-modal-bg my-2 mx-auto">
             <div
-                className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 p-3 cursor-pointer hover:opacity-90 transition-opacity"
+                className="h-24 flex flex-row items-center gap-6 p-6 cursor-pointer relative"
                 onClick={() => setIsExpanded(!isExpanded)}
             >
                 {/* Icon Badge */}
-                <div className="w-10 h-10 bg-vibrant-orange rounded-[16px] flex items-center justify-center flex-shrink-0">
-                    {icon && (
-                        <Image
-                            src={icon}
-                            alt={category || "Goal"}
-                            width={24}
-                            height={24}
-                            className="filter brightness-0 invert"
-                        />
-                    )}
+                <div className="w-14 h-14 bg-vibrant-orange rounded-2xl flex justify-center">
+                    <Image
+                        src={
+                            categories.find((cat) => cat.name === category)!
+                                .icon
+                        }
+                        alt={category}
+                        width={30}
+                        height={30}
+                        className="filter brightness-0 invert"
+                    />
+                </div>
+                {/* Title and Description */}
+                <div className="flex-1">
+                    <h3 className="text-white-pearl font-semibold text-lg mb-1">
+                        {title}
+                    </h3>
+                    <p className="font-medium text-input-text text-sm">
+                        {description}
+                    </p>
                 </div>
 
-                {/* Content Container */}
-                <div className="flex-1 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 w-full relative">
-                    {/* Title and Description */}
-                    <div className="flex-1">
-                        <div className="mb-1">
-                            <h3 className="text-white-pearl font-bold font-manrope text-sm md:text-base leading-[1.3]">
-                                {title}
-                            </h3>
-                        </div>
-                        {description && (
-                            <p className="font-medium text-input-text font-manrope text-xs md:text-sm leading-[1.3]">
-                                {description}
-                            </p>
+                {/* Badge */}
+                <div className="absolute left-80 top-1">
+                    <span
+                        className={clsx(
+                            "inline-flex px-1 py-1 rounded-md text-white-pearl font-semibold text-xs",
+                            progress === 100
+                                ? "bg-green-500"
+                                : "bg-vibrant-orange",
                         )}
-                    </div>
+                    >
+                        {progress === 100 ? "COMPLETED" : "ACTIVE"}
+                    </span>
+                </div>
 
-                    {/* Badge - Positioned absolutely */}
-                    <div className="absolute left-44 -top-6">
-                        <Badge
-                            label={progress === 100 ? "COMPLETED" : "ACTIVE"}
-                            variant={progress === 100 ? "COMPLETED" : "ACTIVE"}
+                {/* Progress Section */}
+                <div className="w-64 mr-8">
+                    <div className="flex justify-between text-white-pearl text-sm mb-1 font-medium">
+                        <p>Progress</p>
+                        <p>{progress}%</p>
+                    </div>
+                    <div className="h-2 bg-progress-empty rounded-full">
+                        <div
+                            className="h-full bg-vibrant-orange rounded-full transition-all duration-300"
+                            style={{ width: `${progress}%` }}
                         />
-                    </div>
-
-                    {/* Progress Section */}
-                    <div className="flex flex-col gap-2 w-full md:w-64 md:mr-12">
-                        <div className="flex items-center justify-between">
-                            <span className="text-white-pearl font-text font-medium text-sm leading-[20px]">
-                                Progress
-                            </span>
-                            <span className="text-white-pearl font-text font-semibold text-sm leading-[20px]">
-                                {progress}%
-                            </span>
-                        </div>
-                        <div className="h-[6px] w-full bg-progress-empty rounded-full overflow-hidden">
-                            <div
-                                className="h-full bg-vibrant-orange rounded-full transition-all duration-300"
-                                style={{ width: `${progress}%` }}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Target Date Section */}
-                    <div className="flex flex-col items-end">
-                        <span className="text-input-text font-text font-medium text-[10px] leading-[1.5] tracking-[0.5px] uppercase mb-0.5">
-                            Target
-                        </span>
-                        <span className="text-white-pearl font-text font-semibold text-sm leading-[1.5]">
-                            {targetDate}
-                        </span>
                     </div>
                 </div>
 
-                {/* Menu Button */}
+                {/* Target Date Section */}
+                <div className="flex flex-col items-end mr-8">
+                    <span className="text-input-text text-xs">TARGET</span>
+                    <span className="text-white-pearl font-semibold text-sm">
+                        {targetDate}
+                    </span>
+                </div>
+
+                {/* Dropdown */}
                 <DropdownMenu
                     items={[
                         {
@@ -158,7 +129,6 @@ export default function GoalCard({
                         {
                             label: "Delete Goal",
                             onClick: onDelete,
-                            variant: "danger" as const,
                         },
                     ]}
                 />
@@ -167,32 +137,30 @@ export default function GoalCard({
             {/* Expanded Content - Tasks and Habits */}
             <div
                 className={clsx(
-                    "overflow-hidden transition-all duration-500 ease-in-out",
+                    "transition-all duration-500",
                     isExpanded
-                        ? "max-h-[2000px] opacity-100"
-                        : "max-h-0 opacity-0",
+                        ? "min-h-40 max-h-96 opacity-100 overflow-y-auto"
+                        : "max-h-0 opacity-0 overflow-hidden",
                 )}
             >
-                {isExpanded && (
-                    <div className="px-3 pb-4 border-t border-input-bg mt-2 pt-4">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <TaskHabitColumn
-                                type="task"
-                                items={tasks}
-                                onAdd={onTaskAdd}
-                                onEdit={onTaskEdit}
-                                onDelete={onTaskDelete}
-                            />
-                            <TaskHabitColumn
-                                type="habit"
-                                items={habits}
-                                onAdd={onHabitAdd}
-                                onEdit={onHabitEdit}
-                                onDelete={onHabitDelete}
-                            />
-                        </div>
+                <div className="border-t border-input-bg p-6">
+                    <div className="grid grid-cols-2 gap-12">
+                        <TaskHabitColumn
+                            type="task"
+                            items={tasks}
+                            onAdd={onTaskAdd}
+                            onEdit={onTaskEdit}
+                            onDelete={onTaskDelete}
+                        />
+                        <TaskHabitColumn
+                            type="habit"
+                            items={habits}
+                            onAdd={onHabitAdd}
+                            onEdit={onHabitEdit}
+                            onDelete={onHabitDelete}
+                        />
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );

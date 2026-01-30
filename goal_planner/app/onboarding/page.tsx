@@ -87,8 +87,8 @@ export default function OnboardingPage() {
                 {/* Step 1: Welcome */}
                 {currentStep === 1 && (
                     <>
-                        <main className="pt-4 pb-28 mx-28">
-                            <div className="flex items-center gap-12">
+                        <main className="flex-1 flex items-center pb-28 mx-28">
+                            <div className="flex items-center gap-12 w-full">
                                 <StepHeader
                                     title={
                                         <>
@@ -107,7 +107,7 @@ export default function OnboardingPage() {
                                     }
                                     description="GoalPlanner helps you organize your life, track your habits, and achieve your biggest dreams through a simple, visual, and rewarding experience."
                                 />
-                                <div className="max-w-lg aspect-[16/10] flex-shrink-0">
+                                <div className="w-5/12 flex-shrink-0">
                                     <Image
                                         src={CalendarImg}
                                         alt="GoalPlanner Dashboard Preview"
