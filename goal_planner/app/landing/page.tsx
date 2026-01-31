@@ -1,9 +1,28 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Feature from "@/components/LandingPage/Feature/Feature";
 import DownloadButton from "@/components/LandingPage/DownloadButton/DownloadButton";
 import Creator from "@/components/LandingPage/Creator/Creator";
 import Button from "@/components/ui/Button/Button";
+import SignIn from "@/components/auth/SignIn/SignIn";
 
 export default function Landing() {
+    const [showSignIn, setShowSignIn] = useState(false);
+
+    // Bloquear scroll cuando el modal está abierto
+    useEffect(() => {
+        if (showSignIn) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [showSignIn]);
+
     return (
         <div className="bg-landing-bg min-h-screen w-full">
             <header
@@ -48,12 +67,12 @@ export default function Landing() {
                             </nav>
                         </div>
                         <div className="flex gap-6 md:gap-8 items-center">
-                            <a
-                                href="#"
-                                className="hidden md:block hover:text-vibrant-orange transition"
+                            <button
+                                onClick={() => setShowSignIn(true)}
+                                className="hidden md:block hover:text-vibrant-orange transition cursor-pointer"
                             >
                                 Sign In
-                            </a>
+                            </button>
                             <Button
                                 mobileText="Download App"
                                 desktopText="Get Started"
@@ -245,6 +264,9 @@ export default function Landing() {
                     </p>
                 </div>
             </footer>
+
+            {/* SignIn Modal */}
+            {showSignIn && <SignIn onClose={() => setShowSignIn(false)} />}
         </div>
     );
 }
