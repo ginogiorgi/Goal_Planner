@@ -15,6 +15,9 @@ interface CalendarEvent {
 	id: string;
 	title: string;
 	color?: string;
+	time?: string; // Nueva propiedad para hora
+	completedTasks?: number; // Tareas completas
+	totalTasks?: number; // Total de tareas
 }
 
 export default function Calendar({
