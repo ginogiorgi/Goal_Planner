@@ -17,12 +17,12 @@ const NavigationButtons = ({
     showPrevious = true,
 }: NavigationButtonsProps) => {
     return (
-        <footer className="fixed bottom-0 left-0 right-0 z-[1001] border-t border-input-bg bg-deep-bg backdrop-blur-[6px] px-4 md:px-16 lg:px-64 xl:px-[320px] py-6">
-            <div className="flex justify-between items-center w-full max-w-[800px] mx-auto">
+        <footer className="fixed bottom-0 left-0 right-0 z-[1001] border-input-bg border bg-deep-bg py-6">
+            <div className="flex justify-between items-center mx-28 px-4">
                 {showPrevious && onPrevious ? (
                     <button
                         onClick={onPrevious}
-                        className="flex items-center gap-2 text-white-pearl hover:text-vibrant-orange transition font-text"
+                        className="flex items-center gap-2 text-white-pearl w-52 h-16"
                     >
                         <TfiArrowLeft />
                         <span>Back</span>
@@ -34,7 +34,7 @@ const NavigationButtons = ({
                 <Button
                     href={nextHref}
                     onClick={onNext}
-                    className="flex items-center justify-center min-w-[180px] h-[56px] px-10 text-[16px] leading-[24px] tracking-[0.4px] gap-5"
+                    className="flex items-center justify-center w-52 h-16 gap-5 font-semibold"
                 >
                     {nextLabel}
                     <TfiArrowRight />
