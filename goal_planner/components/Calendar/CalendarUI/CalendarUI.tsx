@@ -1,12 +1,14 @@
 import { useState, useMemo } from "react";
-import CalendarHeader from "../CalendarHeader/CalendarHeader";
 import CalendarGrid from "../CalendarGrid/CalendarGrid";
-import { cn } from "@/lib/utils";
+import Top from "../../Layout/Top/Top";
+import { Plus } from "lucide-react";
 
 export interface CalendarProps {
 	events?: Record<string, CalendarEvent[]>;
 	onDateSelect?: (date: Date) => void;
 	selectedDate?: Date;
+	onAddHabit?: () => void;
+	onAddTask?: () => void;
 }
 
 interface CalendarEvent {
@@ -19,6 +21,8 @@ export default function Calendar({
 	events = {},
 	onDateSelect,
 	selectedDate,
+	onAddHabit,
+	onAddTask,
 }: CalendarProps) {
 	const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -119,8 +123,21 @@ export default function Calendar({
 	return (
 		<div className="w-full max-w-[900px] mx-auto">
 			{/* Header */}
-			<CalendarHeader
-				monthName={monthName}
+			<Top
+				title={monthName}
+				showNavigation
+				buttons={[
+					{
+						text: "New Habit",
+						onClick: onAddHabit || (() => console.log("Add Habit clicked")),
+						icon: <Plus className="w-4 h-4" />,
+					},
+					{
+						text: "New Task",
+						onClick: onAddTask || (() => console.log("Add Task clicked")),
+						icon: <Plus className="w-4 h-4" />,
+					},
+				]}
 				onPrevMonth={handlePrevMonth}
 				onNextMonth={handleNextMonth}
 				onToday={handleToday}
