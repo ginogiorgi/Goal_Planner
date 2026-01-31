@@ -40,7 +40,7 @@ export default function CalendarCard({
 			{date && (
 				<div
 					className={cn(
-						"text-sm font-semibold transition-colors",
+						"text-sm font-semibold transition-colors text-left",
 						isSelected ? "text-white-pearl" : "text-white-pearl",
 						isToday && !isSelected && "text-[#D94E06]",
 					)}>
