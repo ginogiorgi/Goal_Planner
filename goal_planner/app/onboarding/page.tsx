@@ -1,5 +1,7 @@
 "use client";
 import { useState, Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { TfiArrowRight } from "react-icons/tfi";
