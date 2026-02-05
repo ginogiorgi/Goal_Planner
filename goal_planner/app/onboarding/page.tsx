@@ -1,8 +1,9 @@
 "use client";
+
 import { useState, Suspense } from "react";
 
 export const dynamic = "force-dynamic";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { TfiArrowRight } from "react-icons/tfi";
 import ProgressBar from "@/components/Onboarding/ProgressBar/ProgressBar";
@@ -14,13 +15,10 @@ import CalendarImg from "../../public/CalendarScreenshot.png";
 import GoalCard from "@/components/common/GoalCard/GoalCard";
 import { categories } from "@/lib/constants/categories";
 
-export default function OnboardingPage({
-	searchParams,
-}: {
-	searchParams: { step?: string };
-}) {
+export default function OnboardingPage() {
 	const router = useRouter();
-	const currentStep = parseInt(searchParams.step || "1", 10);
+	const searchParams = useSearchParams();
+	const currentStep = parseInt(searchParams.get("step") || "1", 10);
 
 	const handleNext = () => {
 		router.push(`/onboarding?step=${currentStep + 1}`);

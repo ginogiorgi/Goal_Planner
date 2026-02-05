@@ -3,6 +3,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button/Button";
 import InputField from "@/components/ui/InputField/InputField";
+import { FcGoogle } from "react-icons/fc";
+import { BiSolidError } from "react-icons/bi";
 
 interface SignInProps {
 	onClose: () => void;
@@ -52,10 +54,14 @@ const SignIn = ({ onClose }: SignInProps) => {
 	};
 
 	return (
-		<div className="fixed inset-0 bg-modal-bg/90 backdrop-blur-sm flex items-center justify-center z-50 ">
-			<div className="w-full max-w-[440px] bg-modal-bg rounded-[28px] border-[3px] border-vibrant-orange shadow-[0_0_13.3px_0_hsl(var(--vibrant-orange))] px-14 py-10 my-4">
+		<div
+			className="fixed inset-0 bg-modal-bg/90 backdrop-blur-sm flex items-center justify-center z-50 "
+			onClick={onClose}>
+			<div
+				className="w-full h-full max-h-[650px] max-w-[440px] bg-modal-bg rounded-[28px] border-[3px] border-vibrant-orange shadow-[0_0_13.3px_0_hsl(var(--vibrant-orange))] px-14 pt-10"
+				onClick={(e) => e.stopPropagation()}>
 				<div className="flex flex-col items-center mb-6">
-					<h1 className="text-white-pearl text-center font-montserrat text-4xl font-semibold">
+					<h1 className="text-white-pearl text-center font-title text-4xl font-semibold mb-4">
 						Login
 					</h1>
 				</div>
@@ -66,11 +72,17 @@ const SignIn = ({ onClose }: SignInProps) => {
 						<InputField
 							label="Email Address"
 							type="email"
-							placeholder="your@email.com"
+							placeholder="mail@example.com"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
+							labelClassName="block text-white-pearl mb-2"
 						/>
-						{emailError && <span className="text-xs">{emailError}</span>}
+						{emailError && (
+							<span className="text-xs text-carmin flex items-center gap-1 mt-1">
+								<BiSolidError />
+								{emailError}
+							</span>
+						)}
 					</div>
 
 					{/* Password Field */}
@@ -91,16 +103,29 @@ const SignIn = ({ onClose }: SignInProps) => {
 							placeholder="••••••••"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
+							labelClassName="block text-white-pearl mb-2"
+							showPasswordToggle={true}
+							isPasswordVisible={showPassword}
+							onPasswordToggle={() => setShowPassword(!showPassword)}
 						/>
-						{passwordError && <span className="text-xs">{passwordError}</span>}
+						{passwordError && (
+							<span className="text-xs text-carmin flex items-center gap-1 mt-1">
+								<BiSolidError />
+								{passwordError}
+							</span>
+						)}
 					</div>
 
 					{/* Keep me signed in */}
 					<div className="flex items-center gap-2 pt-1">
-						<button
-							type="button"
-							className="flex items-center justify-center w-4 h-4 rounded-sm border-2 border-vibrant-orange bg-transparent hover:bg-vibrant-orange/10 transition-colors"></button>
-						<label className="text-white-pearl text-sm cursor-pointer">
+						<input
+							id="keep-logged-in"
+							type="checkbox"
+							checked={keepLoggedIn}
+							onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+							className="w-4 h-4 rounded-sm border-2 border-white-pearl bg-vibrant-orange accent-[hsl(var(--vibrant-orange))]"
+						/>
+						<label className="text-white-pearl text-sm">
 							Keep me signed in
 						</label>
 					</div>
@@ -114,7 +139,7 @@ const SignIn = ({ onClose }: SignInProps) => {
 				</form>
 
 				{/* Divider */}
-				<div className="relative my-6">
+				<div className="relative my-10">
 					<div className="absolute inset-0 flex items-center">
 						<div className="w-full border-t border-input-bg"></div>
 					</div>
@@ -128,7 +153,8 @@ const SignIn = ({ onClose }: SignInProps) => {
 				{/* Google Sign In */}
 				<Button
 					onClick={() => console.log("Google sign in")}
-					className="w-full h-10 rounded-xl text-base font-semibold">
+					className="w-full h-12 rounded-xs text-base font-semibold flex items-center justify-center gap-2">
+					<FcGoogle size={22} />
 					Sign in with Google
 				</Button>
 
