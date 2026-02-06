@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Feature from "@/components/LandingPage/Feature/Feature";
 import DownloadButton from "@/components/LandingPage/DownloadButton/DownloadButton";
 import Creator from "@/components/LandingPage/Creator/Creator";
@@ -67,11 +68,9 @@ export default function Landing() {
 								className="hidden md:block hover:text-vibrant-orange transition cursor-pointer">
 								Sign In
 							</button>
-							<Button
-								mobileText="Download App"
-								desktopText="Get Started"
-								href="#download-app"
-							/>
+							<Link href="/register">
+								<Button mobileText="Download App" desktopText="Get Started" />
+							</Link>
 						</div>
 						{/*Header*/}
 					</div>
