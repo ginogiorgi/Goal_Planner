@@ -7,6 +7,7 @@ import { BiSolidError } from "react-icons/bi";
 import Modal from "@/components/ui/Modal/Modal";
 import InputField from "@/components/ui/InputField/InputField";
 import Button from "@/components/ui/Button/Button";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ForgotPassword() {
 	const router = useRouter();
@@ -32,11 +33,17 @@ export default function ForgotPassword() {
 		setError("");
 
 		try {
-			// TODO: Implement forgot password logic with Supabase
-			console.log("Sending reset link to:", email);
+			const supabase = createClient();
+			const { error } = await supabase.auth.resetPasswordForEmail(email, {
+				redirectTo: `${window.location.origin}/change-password`,
+			});
 
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 2000));
+			if (error) {
+				setError(
+					error.message || "Failed to send reset link. Please try again.",
+				);
+				return;
+			}
 
 			// Show success message
 			setSuccess(true);
@@ -95,7 +102,7 @@ export default function ForgotPassword() {
 								<p className="text-white-pearl/70 text-sm">
 									Remember your password?{" "}
 									<Link
-										href="/signin"
+										href="/landing"
 										className="text-vibrant-orange hover:text-vibrant-orange/80 font-medium transition-colors">
 										Sign In
 									</Link>
@@ -141,7 +148,7 @@ export default function ForgotPassword() {
 							</p>
 							<div className="pt-4 border-t border-input-bg">
 								<Link
-									href="/signin"
+									href="/landing"
 									className="text-vibrant-orange hover:text-vibrant-orange/80 font-medium transition-colors">
 									Back to Sign In
 								</Link>

@@ -1,28 +1,33 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/ui/Button/Button";
 import InputField from "@/components/ui/InputField/InputField";
 import { FcGoogle } from "react-icons/fc";
 import { BiSolidError } from "react-icons/bi";
+import { createClient } from "@/lib/supabase/client";
 
 interface SignInProps {
 	onClose: () => void;
 }
 
 const SignIn = ({ onClose }: SignInProps) => {
+	const router = useRouter();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [keepLoggedIn, setKeepLoggedIn] = useState(false);
 	const [emailError, setEmailError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
+	const [generalError, setGeneralError] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		// Validación simple
+	const handleSubmit = async (e?: React.FormEvent) => {
+		e?.preventDefault();
 		setEmailError("");
 		setPasswordError("");
+		setGeneralError("");
 
 		if (!email) {
 			setEmailError("Email is required");
@@ -33,25 +38,37 @@ const SignIn = ({ onClose }: SignInProps) => {
 			return;
 		}
 
-		console.log("Sign in:", { email, password, keepLoggedIn });
+		setIsLoading(true);
+
+		try {
+			const supabase = createClient();
+			const { error } = await supabase.auth.signInWithPassword({
+				email,
+				password,
+			});
+
+			if (error) {
+				if (error.message?.includes("Invalid login credentials")) {
+					setGeneralError("Invalid email or password. Please try again.");
+				} else if (error.message?.includes("Email not confirmed")) {
+					setGeneralError("Please verify your email before signing in.");
+				} else {
+					setGeneralError(error.message || "Sign in failed. Please try again.");
+				}
+				return;
+			}
+
+			// Success - redirect to dashboard
+			router.push("/anual-goals");
+		} catch (err) {
+			setGeneralError("An unexpected error occurred. Please try again.");
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
-	const handleLoginSubmit = () => {
-		// Validación simple
-		setEmailError("");
-		setPasswordError("");
-
-		if (!email) {
-			setEmailError("Email is required");
-			return;
-		}
-		if (!password) {
-			setPasswordError("Password is required");
-			return;
-		}
-
-		console.log("Sign in:", { email, password, keepLoggedIn });
-	};
+	// Unused - form submit handles this
+	const handleLoginSubmit = () => {};
 
 	return (
 		<div
@@ -92,7 +109,7 @@ const SignIn = ({ onClose }: SignInProps) => {
 								Password
 							</label>
 							<Link
-								href="/"
+								href="/forgot-password"
 								className="text-royal-blue text-xs hover:underline">
 								Forgot Password
 							</Link>
@@ -130,11 +147,19 @@ const SignIn = ({ onClose }: SignInProps) => {
 						</label>
 					</div>
 
+					{/* Error message */}
+					{generalError && (
+						<div className="flex items-center gap-2 text-carmin text-sm">
+							<BiSolidError className="text-lg" />
+							<span>{generalError}</span>
+						</div>
+					)}
+
 					{/* Login Button */}
 					<Button
-						onClick={handleLoginSubmit}
+						onClick={() => handleSubmit()}
 						className="w-full h-10 rounded-xl text-sm font-semibold">
-						Login
+						{isLoading ? "Signing in..." : "Login"}
 					</Button>
 				</form>
 
@@ -161,7 +186,7 @@ const SignIn = ({ onClose }: SignInProps) => {
 				{/* Sign Up Link */}
 				<p className="text-center mt-6 text-white-pearl text-sm">
 					Don't have an Account?{" "}
-					<Link href="/" className="text-royal-blue hover:underline">
+					<Link href="/register" className="text-royal-blue hover:underline">
 						Sign up here
 					</Link>
 				</p>

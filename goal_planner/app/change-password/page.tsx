@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { BiSolidError } from "react-icons/bi";
 import Modal from "@/components/ui/Modal/Modal";
 import InputField from "@/components/ui/InputField/InputField";
 import Button from "@/components/ui/Button/Button";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ChangePassword() {
 	const router = useRouter();
+	const searchParams = useSearchParams();
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [showNewPassword, setShowNewPassword] = useState(false);
@@ -17,6 +19,24 @@ export default function ChangePassword() {
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+
+	// Check for access_token in URL (from email link)
+	useEffect(() => {
+		const access_token = searchParams.get("access_token");
+		const type = searchParams.get("type");
+
+		if (access_token && type === "recovery") {
+			// Set the session with the recovery token
+			const setSession = async () => {
+				const supabase = createClient();
+				await supabase.auth.setSession({
+					access_token,
+					refresh_token: "",
+				});
+			};
+			setSession();
+		}
+	}, [searchParams]);
 
 	// Handle form submission
 	const handleSubmit = async () => {
@@ -40,11 +60,21 @@ export default function ChangePassword() {
 		setError("");
 
 		try {
-			// TODO: Implement change password logic with Supabase
-			console.log("Changing password");
+			const supabase = createClient();
+			const { error } = await supabase.auth.updateUser({
+				password: newPassword,
+			});
 
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 2000));
+			if (error) {
+				if (error.message?.includes("Password")) {
+					setError("Password is too weak. Please use a stronger password.");
+				} else {
+					setError(
+						error.message || "Failed to change password. Please try again.",
+					);
+				}
+				return;
+			}
 
 			// Show success message
 			setSuccess(true);
@@ -126,7 +156,7 @@ export default function ChangePassword() {
 								<p className="text-white-pearl/70 text-sm">
 									Remember your password?{" "}
 									<Link
-										href="/signin"
+										href="/landing"
 										className="text-vibrant-orange hover:text-vibrant-orange/80 font-medium transition-colors">
 										Sign In
 									</Link>

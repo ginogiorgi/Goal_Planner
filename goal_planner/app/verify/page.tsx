@@ -1,17 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { BiSolidError } from "react-icons/bi";
 import Modal from "@/components/ui/Modal/Modal";
 import Button from "@/components/ui/Button/Button";
+import { createClient } from "@/lib/supabase/client";
 
 export default function VerifyEmail() {
 	const router = useRouter();
-	const [code, setCode] = useState(["", "", "", "", "", ""]);
+	const searchParams = useSearchParams();
+	const [code, setCode] = useState(["", "", "", "", "", "", "", ""]);
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+
+	// Get email from URL query param
+	const userEmail = searchParams.get("email") || "";
+
+	useEffect(() => {
+		if (!userEmail) {
+			setError("No email found. Please sign up again.");
+		}
+	}, [userEmail]);
 
 	// Handle input change for each digit
 	const handleInputChange = (index: number, value: string) => {
@@ -23,7 +34,7 @@ export default function VerifyEmail() {
 		setCode(newCode);
 
 		// Auto-focus next input
-		if (value && index < 5) {
+		if (value && index < 7) {
 			const nextInput = document.getElementById(
 				`code-${index + 1}`,
 			) as HTMLInputElement;
@@ -49,13 +60,13 @@ export default function VerifyEmail() {
 		e.preventDefault();
 		const pastedData = e.clipboardData.getData("text").trim();
 
-		// Only allow 6 digits
-		if (/^\d{6}$/.test(pastedData)) {
+		// Only allow 8 digits
+		if (/^\d{8}$/.test(pastedData)) {
 			const digits = pastedData.split("");
 			setCode(digits);
 
 			// Focus last input
-			const lastInput = document.getElementById("code-5") as HTMLInputElement;
+			const lastInput = document.getElementById("code-7") as HTMLInputElement;
 			lastInput?.focus();
 		}
 	};
@@ -65,8 +76,13 @@ export default function VerifyEmail() {
 		const verificationCode = code.join("");
 
 		// Validation
-		if (verificationCode.length !== 6) {
-			setError("Please enter all 6 digits");
+		if (verificationCode.length !== 8) {
+			setError("Please enter all 8 digits");
+			return;
+		}
+
+		if (!userEmail) {
+			setError("No email found. Please sign up again.");
 			return;
 		}
 
@@ -74,16 +90,30 @@ export default function VerifyEmail() {
 		setError("");
 
 		try {
-			// TODO: Implement verification logic with Supabase
-			console.log("Verifying code:", verificationCode);
+			const supabase = createClient();
+			const { error } = await supabase.auth.verifyOtp({
+				email: userEmail,
+				token: verificationCode,
+				type: "signup",
+			});
 
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 2000));
+			if (error) {
+				if (error.message?.includes("Invalid OTP")) {
+					setError(
+						"Invalid verification code. Please check your email and try again.",
+					);
+				} else if (error.message?.includes("expired")) {
+					setError("Verification code has expired. Please request a new one.");
+				} else {
+					setError(error.message || "Verification failed. Please try again.");
+				}
+				return;
+			}
 
-			// Redirect to dashboard on success
-			router.push("/dashboard");
+			// Success - redirect to onboarding
+			router.push("/onboarding");
 		} catch (err) {
-			setError("Invalid verification code. Please try again.");
+			setError("An unexpected error occurred. Please try again.");
 		} finally {
 			setIsLoading(false);
 		}
@@ -101,7 +131,7 @@ export default function VerifyEmail() {
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 
 			// Clear inputs and focus first
-			setCode(["", "", "", "", "", ""]);
+			setCode(["", "", "", "", "", "", "", ""]);
 			const firstInput = document.getElementById("code-0") as HTMLInputElement;
 			firstInput?.focus();
 		} catch (err) {
@@ -119,9 +149,9 @@ export default function VerifyEmail() {
 			<div className="w-full flex items-center justify-center p-8 lg:p-12">
 				<Modal
 					title="Verify your email"
-					subtitle="We've sent a verification email to ginorubengiorgi@gmail.com, please enter the code below."
+					subtitle={`We've sent a verification email${userEmail ? ` to ${userEmail}` : ""}, please enter the 8-digit code below.`}
 					maxWidth="md">
-					{/* 6-digit code inputs */}
+					{/* 8-digit code inputs */}
 					<div className="flex justify-between gap-2">
 						{code.map((digit, index) => (
 							<input

@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/ui/Button/Button";
 import InputField from "@/components/ui/InputField/InputField";
 import { FcGoogle } from "react-icons/fc";
 import { BiSolidError } from "react-icons/bi";
+import { createClient } from "@/lib/supabase/client";
 
 export default function Register() {
 	const [fullName, setFullName] = useState("");
@@ -18,13 +20,17 @@ export default function Register() {
 	const [emailError, setEmailError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
 	const [confirmPasswordError, setConfirmPasswordError] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const [generalError, setGeneralError] = useState("");
+	const router = useRouter();
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		// Validación simple
 		setFullNameError("");
 		setEmailError("");
 		setPasswordError("");
 		setConfirmPasswordError("");
+		setGeneralError("");
 
 		if (!fullName) {
 			setFullNameError("Full name is required");
@@ -38,16 +44,48 @@ export default function Register() {
 			setPasswordError("Password is required");
 			return;
 		}
+		if (password.length < 8) {
+			setPasswordError("Password must be at least 8 characters");
+			return;
+		}
 		if (password !== confirmPassword) {
 			setConfirmPasswordError("Passwords do not match");
 			return;
 		}
 		if (!acceptTerms) {
-			console.log("Must accept terms");
+			setGeneralError("You must accept the terms and conditions");
 			return;
 		}
 
-		console.log("Sign up:", { fullName, email, password });
+		setIsLoading(true);
+
+		try {
+			const supabase = createClient();
+
+			const { error } = await supabase.auth.signUp({
+				email,
+				password,
+				options: {
+					emailRedirectTo: `${window.location.origin}/verify`,
+				},
+			});
+
+			if (error) {
+				if (error.message?.includes("User already registered")) {
+					setGeneralError("An account with this email already exists");
+				} else {
+					setGeneralError(error.message || "An error occurred during sign up");
+				}
+				return;
+			}
+
+			// Success - redirect to verify page with email
+			router.push(`/verify?email=${encodeURIComponent(email)}`);
+		} catch (error) {
+			setGeneralError("An unexpected error occurred. Please try again.");
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -225,8 +263,16 @@ export default function Register() {
 						<Button
 							onClick={() => handleSubmit()}
 							className="w-full h-11 rounded-xl text-sm font-semibold">
-							Sign Up
+							{isLoading ? "Creating account..." : "Sign Up"}
 						</Button>
+
+						{/* General Error */}
+						{generalError && (
+							<div className="flex items-center gap-2 text-carmin text-sm mt-4">
+								<BiSolidError className="text-lg" />
+								<span>{generalError}</span>
+							</div>
+						)}
 					</form>
 
 					{/* Divider */}
