@@ -66,13 +66,16 @@ export default function Register() {
 				email,
 				password,
 				options: {
+					data: {
+						full_name: fullName,
+					},
 					emailRedirectTo: `${window.location.origin}/verify`,
 				},
 			});
 
 			if (error) {
 				if (error.message) {
-					setGeneralError("An account with this email already exists");
+					setGeneralError(error.message);
 				} else {
 					setGeneralError(error.message || "An error occurred during sign up");
 				}
@@ -298,7 +301,9 @@ export default function Register() {
 					{/* Sign In Link */}
 					<p className="text-center mt-6 text-white-pearl text-sm">
 						Have an Account?{" "}
-						<Link href="/" className="text-royal-blue hover:underline">
+						<Link
+							href="/landing?signin=true"
+							className="text-royal-blue hover:underline">
 							Sign in here
 						</Link>
 					</p>
