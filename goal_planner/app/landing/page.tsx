@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Feature from "@/components/LandingPage/Feature/Feature";
 import DownloadButton from "@/components/LandingPage/DownloadButton/DownloadButton";
@@ -9,6 +10,15 @@ import SignIn from "@/components/auth/SignIn/SignIn";
 
 export default function Landing() {
 	const [showSignIn, setShowSignIn] = useState(false);
+	const searchParams = useSearchParams();
+
+	// Check if should auto-open sign in modal
+	useEffect(() => {
+		const shouldShowSignIn = searchParams.get("signin") === "true";
+		if (shouldShowSignIn) {
+			setShowSignIn(true);
+		}
+	}, [searchParams]);
 
 	// Bloquear scroll cuando el modal está abierto
 	useEffect(() => {
