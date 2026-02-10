@@ -52,6 +52,10 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname !== "/onboarding" &&
     request.nextUrl.pathname !== "/landing" &&
     request.nextUrl.pathname !== "/calendar" &&
+    request.nextUrl.pathname !== "/register" &&
+    request.nextUrl.pathname !== "/verify" &&
+    request.nextUrl.pathname !== "/forgot-password" &&
+    request.nextUrl.pathname !== "/change-password" &&
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth")
