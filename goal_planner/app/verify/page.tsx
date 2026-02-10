@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BiSolidError } from "react-icons/bi";
 import Modal from "@/components/ui/Modal/Modal";
 import Button from "@/components/ui/Button/Button";
@@ -10,7 +9,6 @@ import { createClient } from "@/lib/supabase/client";
 
 export default function VerifyEmail() {
 	const router = useRouter();
-	const searchParams = useSearchParams();
 	const [code, setCode] = useState(["", "", "", "", "", "", "", ""]);
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -124,21 +122,51 @@ export default function VerifyEmail() {
 
 	// Handle resend code
 	const handleResendCode = async () => {
+		if (!userEmail) {
+			setError("No email found. Please sign up again.");
+			return;
+		}
+
 		setIsLoading(true);
+		setError("");
 
 		try {
-			// TODO: Implement resend logic with Supabase
-			console.log("Resending verification code");
+			const supabase = createClient();
 
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 1000));
+			console.log("Attempting to resend code to:", userEmail);
 
-			// Clear inputs and focus first
-			setCode(["", "", "", "", "", "", "", ""]);
-			const firstInput = document.getElementById("code-0") as HTMLInputElement;
-			firstInput?.focus();
+			const { error } = await supabase.auth.resend({
+				type: "signup",
+				email: userEmail,
+				options: {
+					emailRedirectTo: `${window.location.origin}/verify`,
+				},
+			});
+
+			console.log("Resend response:", { error });
+
+			if (error) {
+				console.error("Resend error:", error);
+				setError(
+					`Failed to resend code: ${error.message || "Please try again."}`,
+				);
+			} else {
+				console.log("Resend successful");
+				// Clear inputs and focus first
+				setCode(["", "", "", "", "", "", "", ""]);
+				const firstInput = document.getElementById(
+					"code-0",
+				) as HTMLInputElement;
+				firstInput?.focus();
+
+				// Show success feedback
+				setError(""); // Clear any existing error
+			}
 		} catch (err) {
-			setError("Failed to resend code. Please try again.");
+			console.error("Resend catch error:", err);
+			setError(
+				`Failed to resend code: ${err instanceof Error ? err.message : "Please try again."}`,
+			);
 		} finally {
 			setIsLoading(false);
 		}
@@ -155,7 +183,7 @@ export default function VerifyEmail() {
 					subtitle="We've sent a verification code to your email. Please enter the 8-digit code below."
 					maxWidth="md">
 					{/* 8-digit code inputs */}
-					<div className="flex justify-between gap-2">
+					<div className="flex justify-center gap-2">
 						{code.map((digit, index) => (
 							<input
 								key={index}
