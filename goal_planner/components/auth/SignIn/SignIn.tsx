@@ -59,16 +59,13 @@ const SignIn = ({ onClose }: SignInProps) => {
 			}
 
 			// Success - redirect to dashboard
-			router.push("/anual-goals");
+			router.push("/calendar");
 		} catch (err) {
 			setGeneralError("An unexpected error occurred. Please try again.");
 		} finally {
 			setIsLoading(false);
 		}
 	};
-
-	// Unused - form submit handles this
-	const handleLoginSubmit = () => {};
 
 	return (
 		<div
