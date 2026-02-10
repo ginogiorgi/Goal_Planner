@@ -150,18 +150,6 @@ export default function ChangePassword() {
 								className="w-full h-11 rounded-xl text-sm font-semibold">
 								{isLoading ? "Changing..." : "Change Password"}
 							</Button>
-
-							{/* Back to Sign In */}
-							<div className="text-center pt-4 border-t border-input-bg">
-								<p className="text-white-pearl/70 text-sm">
-									Remember your password?{" "}
-									<Link
-										href="/landing"
-										className="text-vibrant-orange hover:text-vibrant-orange/80 font-medium transition-colors">
-										Sign In
-									</Link>
-								</p>
-							</div>
 						</>
 					) : (
 						/* Success State */

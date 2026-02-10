@@ -71,7 +71,7 @@ export default function Register() {
 			});
 
 			if (error) {
-				if (error.message?.includes("User already registered")) {
+				if (error.message) {
 					setGeneralError("An account with this email already exists");
 				} else {
 					setGeneralError(error.message || "An error occurred during sign up");
@@ -80,7 +80,7 @@ export default function Register() {
 			}
 
 			// Success - redirect to verify page with email
-			router.push(`/verify?email=${encodeURIComponent(email)}`);
+			router.push(`/verify`);
 		} catch (error) {
 			setGeneralError("An unexpected error occurred. Please try again.");
 		} finally {

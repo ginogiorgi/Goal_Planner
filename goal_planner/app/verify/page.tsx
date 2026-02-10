@@ -14,15 +14,18 @@ export default function VerifyEmail() {
 	const [code, setCode] = useState(["", "", "", "", "", "", "", ""]);
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
-
-	// Get email from URL query param
-	const userEmail = searchParams.get("email") || "";
+	const [userEmail, setUserEmail] = useState("");
 
 	useEffect(() => {
-		if (!userEmail) {
-			setError("No email found. Please sign up again.");
+		// Get email from sessionStorage (set during registration)
+		const email = sessionStorage.getItem("verifyEmail");
+		if (email) {
+			setUserEmail(email);
+		} else {
+			// Si no hay email en sessionStorage, esperar a que vuelva a intentar
+			setError("Session expired. Please sign up again.");
 		}
-	}, [userEmail]);
+	}, []);
 
 	// Handle input change for each digit
 	const handleInputChange = (index: number, value: string) => {
@@ -149,7 +152,7 @@ export default function VerifyEmail() {
 			<div className="w-full flex items-center justify-center p-8 lg:p-12">
 				<Modal
 					title="Verify your email"
-					subtitle={`We've sent a verification email${userEmail ? ` to ${userEmail}` : ""}, please enter the 8-digit code below.`}
+					subtitle="We've sent a verification code to your email. Please enter the 8-digit code below."
 					maxWidth="md">
 					{/* 8-digit code inputs */}
 					<div className="flex justify-between gap-2">
