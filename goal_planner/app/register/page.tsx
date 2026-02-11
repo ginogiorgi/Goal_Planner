@@ -25,7 +25,6 @@ export default function Register() {
 	const router = useRouter();
 
 	const handleSubmit = async () => {
-		// Validación simple
 		setFullNameError("");
 		setEmailError("");
 		setPasswordError("");
@@ -40,6 +39,11 @@ export default function Register() {
 			setEmailError("Email is required");
 			return;
 		}
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(email)) {
+			setEmailError("Please enter a valid email address");
+			return;
+		}
 		if (!password) {
 			setPasswordError("Password is required");
 			return;
@@ -48,6 +52,13 @@ export default function Register() {
 			setPasswordError("Password must be at least 8 characters");
 			return;
 		}
+		//Todo: better password validation
+		/* 		if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+			setPasswordError(
+				"Password must contain at least one uppercase letter, one lowercase letter, and one number",
+			);
+			return;
+		} */
 		if (password !== confirmPassword) {
 			setConfirmPasswordError("Passwords do not match");
 			return;
@@ -74,15 +85,13 @@ export default function Register() {
 			});
 
 			if (error) {
-				if (error.message) {
-					setGeneralError(error.message);
-				} else {
-					setGeneralError(error.message || "An error occurred during sign up");
-				}
+				setGeneralError(error.message);
+				sessionStorage.removeItem("verifyEmail");
 				return;
 			}
 
-			// Success - redirect to verify page with email
+			// Success - save email to sessionStorage and redirect to verify page
+			sessionStorage.setItem("verifyEmail", email);
 			router.push(`/verify`);
 		} catch (error) {
 			setGeneralError("An unexpected error occurred. Please try again.");
@@ -253,7 +262,7 @@ export default function Register() {
 								type="checkbox"
 								checked={acceptTerms}
 								onChange={() => setAcceptTerms(!acceptTerms)}
-								className="w-4 h-4 rounded border-2 border-white-pearl bg-vibrant-orange mt-1"
+								className="w-4 h-4 rounded-sm border-2 border-white-pearl bg-vibrant-orange accent-[hsl(var(--vibrant-orange))] self-center"
 							/>
 							<label
 								htmlFor="accept-terms"

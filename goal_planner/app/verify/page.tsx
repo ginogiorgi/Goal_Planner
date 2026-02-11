@@ -20,8 +20,10 @@ export default function VerifyEmail() {
 		if (email) {
 			setUserEmail(email);
 		} else {
-			// Si no hay email en sessionStorage, esperar a que vuelva a intentar
 			setError("Session expired. Please sign up again.");
+			setTimeout(() => {
+				router.push("/register");
+			}, 3000);
 		}
 	}, []);
 
@@ -111,7 +113,8 @@ export default function VerifyEmail() {
 				return;
 			}
 
-			// Success - redirect to onboarding
+			// Success - clear sessionStorage and redirect to onboarding
+			sessionStorage.removeItem("verifyEmail");
 			router.push("/onboarding");
 		} catch (err) {
 			setError("An unexpected error occurred. Please try again.");
@@ -182,6 +185,14 @@ export default function VerifyEmail() {
 					title="Verify your email"
 					subtitle="We've sent a verification code to your email. Please enter the 8-digit code below."
 					maxWidth="md">
+					{userEmail && (
+						<div className="text-center mb-6">
+							<p className="text-white-pearl/70 text-sm">
+								Verification code sent to:
+							</p>
+							<p className="text-white-pearl font-medium">{userEmail}</p>
+						</div>
+					)}
 					{/* 8-digit code inputs */}
 					<div className="flex justify-center gap-2">
 						{code.map((digit, index) => (

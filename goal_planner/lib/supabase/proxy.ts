@@ -49,7 +49,6 @@ export async function updateSession(request: NextRequest) {
 
   if (
     request.nextUrl.pathname !== "/" &&
-    request.nextUrl.pathname !== "/onboarding" &&
     request.nextUrl.pathname !== "/landing" &&
     request.nextUrl.pathname !== "/calendar" &&
     request.nextUrl.pathname !== "/register" &&
