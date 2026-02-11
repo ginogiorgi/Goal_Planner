@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Feature from "@/components/LandingPage/Feature/Feature";
@@ -7,10 +7,29 @@ import DownloadButton from "@/components/LandingPage/DownloadButton/DownloadButt
 import Creator from "@/components/LandingPage/Creator/Creator";
 import Button from "@/components/ui/Button/Button";
 import SignIn from "@/components/auth/SignIn/SignIn";
+import { createClient } from "@/lib/supabase/client";
 
 export default function Landing() {
 	const [showSignIn, setShowSignIn] = useState(false);
+	const [user, setUser] = useState<any>(null);
 	const searchParams = useSearchParams();
+
+	// Refs for smooth scrolling
+	const headerRef = useRef(null);
+	const featuresRef = useRef(null);
+	const footerRef = useRef(null);
+
+	// Check authentication status
+	useEffect(() => {
+		const checkAuth = async () => {
+			const supabase = createClient();
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
+			setUser(user);
+		};
+		checkAuth();
+	}, []);
 
 	// Check if should auto-open sign in modal
 	useEffect(() => {
@@ -19,6 +38,11 @@ export default function Landing() {
 			setShowSignIn(true);
 		}
 	}, [searchParams]);
+
+	// Smooth scroll functions
+	const scrollToSection = (ref: any) => {
+		ref.current?.scrollIntoView({ behavior: "smooth" });
+	};
 
 	// Bloquear scroll cuando el modal está abierto
 	useEffect(() => {
@@ -36,7 +60,7 @@ export default function Landing() {
 	return (
 		<div className="bg-landing-bg min-h-screen w-full">
 			<header
-				id="header"
+				ref={headerRef}
 				className="relative bg-cover bg-center w-full bg-[url(/landing_bg.png)] -scroll-mt-16">
 				{/*Nav Bar*/}
 				<div
@@ -55,30 +79,34 @@ export default function Landing() {
 								className="w-8 h-8 md:w-auto md:h-auto"
 							/>
 							<nav className="hidden md:flex gap-8 ml-12">
-								<a
-									href="#header"
+								<button
+									onClick={() => scrollToSection(headerRef)}
 									className="hover:text-vibrant-orange transition">
 									Home
-								</a>
-								<a
-									href="#features"
+								</button>
+								<button
+									onClick={() => scrollToSection(featuresRef)}
 									className="hover:text-vibrant-orange transition">
 									What is Goal Planner?
-								</a>
-								<a
-									href="#footer"
+								</button>
+								<button
+									onClick={() => scrollToSection(footerRef)}
 									className="hover:text-vibrant-orange transition">
 									About Us
-								</a>
+								</button>
 							</nav>
 						</div>
 						<div className="flex gap-6 md:gap-8 items-center">
 							<button
-								onClick={() => setShowSignIn(true)}
+								onClick={() =>
+									user
+										? (window.location.href = "/calendar")
+										: setShowSignIn(true)
+								}
 								className="hidden md:block hover:text-vibrant-orange transition cursor-pointer">
 								Sign In
 							</button>
-							<Link href="/register">
+							<Link href={user ? "/calendar" : "/register"}>
 								<Button mobileText="Download App" desktopText="Get Started" />
 							</Link>
 						</div>
@@ -105,7 +133,7 @@ export default function Landing() {
 			</header>
 			{/*List of App Features*/}
 			<div
-				id="features"
+				ref={featuresRef}
 				className="my-3 box-border border-2 border-vibrant-orange rounded-3xl shadow-[0px_0px_10px_2px_rgba(217,78,6,0.8)] bg-black mx-4 md:mx-12 flex flex-col p-4 md:p-8 scroll-mt-32">
 				<div className="flex flex-col md:flex-row">
 					<Feature
@@ -193,9 +221,11 @@ export default function Landing() {
 						potential?
 					</>
 				</h2>
-				<button className="bg-sea-green text-white-pearl font-title font-semibold text-xl md:text-2xl px-8 md:px-10 py-2 md:py-3 rounded-full">
-					Get Started
-				</button>
+				<Link href={user ? "/calendar" : "/register"}>
+					<button className="bg-sea-green text-white-pearl font-title font-semibold text-xl md:text-2xl px-8 md:px-10 py-2 md:py-3 rounded-full">
+						Get Started
+					</button>
+				</Link>
 			</div>
 			{/*Download App - Mobile*/}
 			<div
@@ -227,7 +257,7 @@ export default function Landing() {
 			</div>
 			{/*Footer*/}
 			<footer
-				id="footer"
+				ref={footerRef}
 				className="bg-vibrant-orange mt-16 md:mt-28 px-6 md:px-44 py-6">
 				<div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-0">
 					<Creator
