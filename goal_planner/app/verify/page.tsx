@@ -15,10 +15,24 @@ export default function VerifyEmail() {
 	const [userEmail, setUserEmail] = useState("");
 
 	useEffect(() => {
+		// Debug: Verificar sessionStorage
+		console.log("SessionStorage items:", Object.keys(sessionStorage));
+		console.log("verifyEmail value:", sessionStorage.getItem("verifyEmail"));
+
 		// Get email from sessionStorage (set during registration)
-		const email = sessionStorage.getItem("verifyEmail");
+		let email = sessionStorage.getItem("verifyEmail");
+
+		// Fallback a localStorage si sessionStorage está vacío
+		if (!email) {
+			email = localStorage.getItem("verifyEmail");
+			console.log("Fallback to localStorage:", email);
+		}
+
 		if (email) {
 			setUserEmail(email);
+			// No eliminar el email hasta después de verificar exitosamente
+			// sessionStorage.removeItem("verifyEmail");
+			// localStorage.removeItem("verifyEmail"); // Limpiar backup
 		} else {
 			setError("Session expired. Please sign up again.");
 			setTimeout(() => {
