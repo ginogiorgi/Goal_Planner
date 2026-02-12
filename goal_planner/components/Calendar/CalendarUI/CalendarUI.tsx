@@ -121,7 +121,7 @@ export default function Calendar({
 	};
 
 	return (
-		<div className="w-full max-w-[958px] mx-auto min-w-[958px]">
+		<div className="w-full mx-auto max-w-[958px]">
 			{/* Header */}
 			<Top
 				title={monthName}

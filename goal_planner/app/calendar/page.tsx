@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import CalendarUI from "@/components/Calendar/CalendarUI/CalendarUI";
 import Navbar from "@/components/Layout/Navbar/Navbar";
+import SidebarModal from "@/components/ui/SidebarModal/SidebarModal";
 
 interface CalendarEvent {
 	id: string;
@@ -12,6 +13,7 @@ interface CalendarEvent {
 
 export default function CalendarPage() {
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const events = useMemo(() => {
 		const today = new Date();
@@ -132,11 +134,14 @@ export default function CalendarPage() {
 		console.log("Add Task clicked");
 	};
 
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+	};
+
 	return (
-		<div className="min-h-screen bg-deep-bg">
-			{/* Main content */}
-			<main className="container mx-auto px-6 py-8">
-				<Navbar />
+		<div className="min-h-screen bg-deep-bg flex">
+			<Navbar />
+			<div className="flex-1 ml-20 mr-80 p-6">
 				<CalendarUI
 					events={events}
 					onDateSelect={handleDateSelect}
@@ -144,7 +149,13 @@ export default function CalendarPage() {
 					onAddHabit={handleAddHabit}
 					onAddTask={handleAddTask}
 				/>
-			</main>
+			</div>
+			{!isModalOpen && (
+				<SidebarModal
+					title="Daily Analytics"
+					onClose={handleCloseModal}
+					children={<div>Modal Content</div>}></SidebarModal>
+			)}
 		</div>
 	);
 }

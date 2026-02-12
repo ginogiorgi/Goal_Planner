@@ -89,10 +89,12 @@ export default function Register() {
 				sessionStorage.removeItem("verifyEmail");
 				return;
 			}
-
+			sessionStorage.removeItem("verifyEmail");
 			// Success - save email to sessionStorage and redirect to verify page
 			sessionStorage.setItem("verifyEmail", email);
-			router.push(`/verify`);
+			localStorage.setItem("verifyEmail", email); // Backup
+			console.log("Email saved to sessionStorage:", email);
+			router.push("/verify");
 		} catch (error) {
 			setGeneralError("An unexpected error occurred. Please try again.");
 		} finally {

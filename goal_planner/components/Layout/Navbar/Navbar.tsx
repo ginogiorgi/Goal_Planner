@@ -1,3 +1,4 @@
+"use client";
 import { Home, Target, BarChart3, Settings } from "lucide-react";
 import Link from "next/link";
 import icon from "@/public/icon.svg";
