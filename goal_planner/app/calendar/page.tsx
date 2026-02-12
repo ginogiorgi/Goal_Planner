@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import CalendarUI from "@/components/Calendar/CalendarUI/CalendarUI";
+import Navbar from "@/components/Layout/Navbar/Navbar";
 
 interface CalendarEvent {
 	id: string;
@@ -135,6 +136,7 @@ export default function CalendarPage() {
 		<div className="min-h-screen bg-deep-bg">
 			{/* Main content */}
 			<main className="container mx-auto px-6 py-8">
+				<Navbar />
 				<CalendarUI
 					events={events}
 					onDateSelect={handleDateSelect}

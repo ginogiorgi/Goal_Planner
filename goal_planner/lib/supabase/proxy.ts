@@ -50,11 +50,14 @@ export async function updateSession(request: NextRequest) {
   if (
     request.nextUrl.pathname !== "/" &&
     request.nextUrl.pathname !== "/landing" &&
-    request.nextUrl.pathname !== "/calendar" &&
     request.nextUrl.pathname !== "/register" &&
     request.nextUrl.pathname !== "/verify" &&
     request.nextUrl.pathname !== "/forgot-password" &&
     request.nextUrl.pathname !== "/change-password" &&
+    request.nextUrl.pathname !== "/calendar" &&
+    request.nextUrl.pathname !== "/anual-goals" &&
+    request.nextUrl.pathname !== "/stats" &&
+    request.nextUrl.pathname !== "/settings" &&
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth")
